@@ -1,28 +1,18 @@
 {
-  "name": "electron-quick-start",
+  "name": "WhaleBrowser",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
+  "description": "White whale",
+  "main": "js/main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron .",
+    "watch-main": "cjsx -o js -cw coffee/main.coffee",
+    "watch-app": "watchify -t coffee-reactify coffee/app.coffee -o js/app.js --poll --verbose"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/atom/electron-quick-start.git"
-  },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial"
-  ],
-  "author": "GitHub",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/atom/electron-quick-start/issues"
-  },
-  "homepage": "https://github.com/atom/electron-quick-start#readme",
   "devDependencies": {
-    "electron-prebuilt": "^0.34.0"
+    "coffee-react": "^4.0.0",
+    "coffee-reactify": "^4.0.0",
+    "electron-prebuilt": "^0.34.0",
+    "watchify": "^3.6.0"
   }
 }
