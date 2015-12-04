@@ -1,0 +1,28 @@
+{
+  "name": "WhaleBrowser",
+  "version": "1.0.0",
+  "description": "White whale",
+  "main": "js/main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch-main": "cjsx -o js -cw coffee/main.coffee",
+    "watch-app": "watchify -t coffee-reactify coffee/app.coffee -o js/app.js --poll --verbose",
+    "build-css": "node-sass --include-path sass sass/main.sass css/main.css --source-map true",
+    "watch-css": "nodemon -e sass -x \"npm run build-css\""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-react": "^4.0.0",
+    "coffee-reactify": "^4.0.0",
+    "electron-prebuilt": "^0.34.0",
+    "electron-rebuild": "^1.0.2",
+    "node-sass": "^3.4.2",
+    "nodemon": "^1.8.1",
+    "watchify": "^3.6.0"
+  },
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-waypoint": "^1.1.2",
+    "underscore": "^1.8.3"
+  }
+}
