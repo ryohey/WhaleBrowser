@@ -7,7 +7,7 @@ child_process = remote.require "child_process"
 Menu = remote.Menu
 MenuItem = remote.MenuItem
 fs = remote.require "fs"
-_u = remote.require "underscore"
+_u = require "underscore"
 
 ## additional modules
 
@@ -21,6 +21,7 @@ createThumbnail = require "./stm.coffee"
 ## components
 
 MovieComponent = require "./movie_component.coffee"
+PreviewComponent = require "./preview_component.coffee"
 
 ## 
 
@@ -30,8 +31,6 @@ db = new Database
   thumbnailSize: "120x90x1x1"
 
 db.start()
-
-PreviewComponent = React.createClass
 
 App = React.createClass 
   getLastMovieId: ->
@@ -45,9 +44,9 @@ App = React.createClass
     @loadMore()
 
   onClickMovie: (index) ->
-    m.selected = false for m in @state.movies
+    m.isSelected = false for m in @state.movies
     movie = @state.movies[index]
-    movie.selected = true
+    movie.isSelected = true
     @setState
       movies: @state.movies
 
@@ -61,18 +60,12 @@ App = React.createClass
     child_process.exec "explorer #{file}"
 
   renderMovies: ->
-    movieElements = 
-      (for i, movie of @state.movies
-        <MovieComponent 
-          movie=movie 
-          key=movie.movie_id 
-          onClick={@onClickMovie.bind @, i}
-          onDoubleClick={@onDoubleClickMovie.bind @, i} />
-      ) 
-
-    <div className="movies">
-      {movieElements} 
-    </div>
+    for i, movie of @state.movies
+      <MovieComponent 
+        movie=movie 
+        key=movie.movie_id 
+        onClick={@onClickMovie.bind @, i}
+        onDoubleClick={@onDoubleClickMovie.bind @, i} />
 
   checkThumbnail: (movie) ->
     thumbnailPath = movie.getThumbnailPath()
@@ -108,13 +101,15 @@ App = React.createClass
     @loadMore()
 
   render: ->
-    <div className="movies">
-      {@renderMovies()}
-      <Waypoint
-        onEnter={@loadByScroll}
-        onLeave={ -> }
-        threshold={0.2}
-      />
+    <div id="app">
+      <div id="movies">
+        {@renderMovies()}
+        <Waypoint
+          onEnter={@loadByScroll}
+          onLeave={ -> }
+          threshold={0.2} />
+      </div>
+      <PreviewComponent movies={@state.movies} />
     </div>
 
-ReactDOM.render <App/>, document.getElementById("app")
+ReactDOM.render <App/>, document.getElementById("root")

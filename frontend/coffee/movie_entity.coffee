@@ -5,4 +5,4 @@ module.exports = class
 
   getThumbnailURL: ->
     fileName = encodeURIComponent "#{@movie_name}.\##{@hash}.jpg"
-    "file://#{@thumbnailDir}#{fileName}"
+    "file://#{@thumbnailDir}#{fileName}?t=#{@isThumbnailCreated}"

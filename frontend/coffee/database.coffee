@@ -11,7 +11,7 @@ options =
   file: "hogefuga"
   thumbnailSize: "120x90x1x1"
 ###
-class Database
+module.exports = class
   constructor: (options) ->
     @path = options.path
     @file = options.file
@@ -47,5 +47,3 @@ class Database
       where movie_id > #{lastMovieId}
       order by movie_id
       limit 10"""
-
-module.exports = Database

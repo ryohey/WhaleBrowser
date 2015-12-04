@@ -4,31 +4,58 @@ body
   color: white
   font-family: "Yu Gothic"
 
-.movies
+#app
+  display: flex
+
+#movies
   overflow: hidden
+  width: calc(100% - 15em)
+  border-right: 1px solid #404040
 
-.movie.selected
-  border-color: blue
+  // WayPoint
+  >span   
+    display: block
+    clear: both
 
-.movie
-  border: 1px solid transparent
+  .movie.selected
+    border-color: blue
+
+  .movie
+    border: 1px solid transparent
+    box-sizing: border-box
+    float: left
+    width: 10em
+    height: 12em
+    position: relative
+    cursor: pointer
+    margin: 1em
+
+    img
+      width: 100%
+
+    .name
+      position: absolute
+      bottom: 0
+      width: 100%
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      font-size: 0.8em
+     
+#preview
+  width: 15em
+  position: fixed
+  padding: 1em
   box-sizing: border-box
-  float: left
-  width: 10em
-  height: 12em
-  position: relative
-  cursor: pointer
-  margin: 1em
-
+  height: 100%
+  overflow: auto
+  
   img
-    width: 100%
+    width: 12em
 
-  .name
-    position: absolute
-    bottom: 0
-    width: 100%
-    overflow: hidden
-    white-space: nowrap
-    text-overflow: ellipsis
-    font-size: 0.8em
-   
+  dt
+    font-weight: bold
+  
+  dd
+    margin-left: 0
+    margin-bottom: 1em

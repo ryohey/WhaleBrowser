@@ -4,30 +4,51 @@ body {
   color: white;
   font-family: "Yu Gothic"; }
 
-.movies {
-  overflow: hidden; }
+#app {
+  display: flex; }
 
-.movie.selected {
-  border-color: blue; }
+#movies {
+  overflow: hidden;
+  width: calc(100% - 15em);
+  border-right: 1px solid #404040; }
+  #movies > span {
+    display: block;
+    clear: both; }
+  #movies .movie.selected {
+    border-color: blue; }
+  #movies .movie {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    float: left;
+    width: 10em;
+    height: 12em;
+    position: relative;
+    cursor: pointer;
+    margin: 1em; }
+    #movies .movie img {
+      width: 100%; }
+    #movies .movie .name {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 0.8em; }
 
-.movie {
-  border: 1px solid transparent;
+#preview {
+  width: 15em;
+  position: fixed;
+  padding: 1em;
   box-sizing: border-box;
-  float: left;
-  width: 10em;
-  height: 12em;
-  position: relative;
-  cursor: pointer;
-  margin: 1em; }
-  .movie img {
-    width: 100%; }
-  .movie .name {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: 0.8em; }
+  height: 100%;
+  overflow: auto; }
+  #preview img {
+    width: 12em; }
+  #preview dt {
+    font-weight: bold; }
+  #preview dd {
+    margin-left: 0;
+    margin-bottom: 1em; }
 
 /*# sourceMappingURL=main.css.map */
