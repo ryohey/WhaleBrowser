@@ -3,9 +3,21 @@ body
   line-height: 1.5
   color: white
   font-family: "Yu Gothic"
+  margin: 0
 
 #app
-  display: flex
+  margin-top: 3em
+  
+  .flex
+    display: flex
+
+#header
+  position: fixed
+  top: 0
+  z-index: 1000
+  width: 100%
+  background-color: #404040
+  padding: 0.5em
 
 #movies
   overflow: hidden
@@ -28,19 +40,33 @@ body
     height: 12em
     position: relative
     cursor: pointer
-    margin: 1em
+    margin: 0.25em
+    padding: 0.5em
 
-    img
-      width: 100%
+    .image  
+      background-color: black
+      height: 8em
+      overflow: hidden
+
+      img
+        min-width: 100%
+        min-height: 100%
 
     .name
       position: absolute
-      bottom: 0
+      bottom: 1.4em
       width: 100%
       overflow: hidden
       white-space: nowrap
       text-overflow: ellipsis
       font-size: 0.8em
+      font-weight: bold
+
+    .time
+      position: absolute
+      bottom: 0em
+      font-size: 0.8em
+      opacity: 0.5
      
 #preview
   width: 15em

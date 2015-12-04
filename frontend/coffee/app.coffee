@@ -22,6 +22,7 @@ createThumbnail = require "./stm.coffee"
 
 MovieComponent = require "./movie_component.coffee"
 PreviewComponent = require "./preview_component.coffee"
+HeaderComponent = require "./header_component.coffee"
 
 ## 
 
@@ -102,14 +103,17 @@ App = React.createClass
 
   render: ->
     <div id="app">
-      <div id="movies">
-        {@renderMovies()}
-        <Waypoint
-          onEnter={@loadByScroll}
-          onLeave={ -> }
-          threshold={0.2} />
+      <HeaderComponent />
+      <div className="flex">
+        <div id="movies">
+          {@renderMovies()}
+          <Waypoint
+            onEnter={@loadByScroll}
+            onLeave={ -> }
+            threshold={0.2} />
+        </div>
+        <PreviewComponent movies={@state.movies} />
       </div>
-      <PreviewComponent movies={@state.movies} />
     </div>
 
 ReactDOM.render <App/>, document.getElementById("root")
