@@ -16,6 +16,7 @@ Waypoint = require "react-waypoint"
 ## user modules
 
 Database = require "./database.coffee"
+Query = require "./query.coffee"
 createThumbnail = require "./stm.coffee"
 
 ## components
@@ -34,15 +35,20 @@ db = new Database
 db.start()
 
 App = React.createClass 
-  getLastMovieId: ->
-    return 0 if @state.movies.length is 0
-    @state.movies[@state.movies.length - 1].movie_id
+  createQuery: -> 
+    new Query(_u.last(@state.movies), @state.sortColumn, @state.sortDescend)
 
   getInitialState: ->
     movies: []
+    sortColumn: "movie_id"
+    sortDescend: false
 
   componentDidMount: ->
     @loadMore()
+
+  componentDidUpdate: (prevProps, prevState) ->
+    if @state.sortColumn isnt prevState.sortColumn or @state.sortDescend isnt prevState.sortDescend
+      @loadMore()
 
   onClickMovie: (index) ->
     m.isSelected = false for m in @state.movies
@@ -63,8 +69,8 @@ App = React.createClass
   renderMovies: ->
     for i, movie of @state.movies
       <MovieComponent 
-        movie=movie 
-        key=movie.movie_id 
+        movie={movie} 
+        key={movie.movie_id} 
         onClick={@onClickMovie.bind @, i}
         onDoubleClick={@onDoubleClickMovie.bind @, i} />
 
@@ -86,13 +92,13 @@ App = React.createClass
           movies: @state.movies
 
   loadMore: ->
-    lastId = @getLastMovieId()
-    console.log "load more movies... (#{lastId})"
-    db.getNextMovies lastId, (error, rows) =>
+    q = @createQuery()
+    db.selectAll q, (error, rows) =>
       if error?
         console.error error
         return
       @checkThumbnail(row) for row in rows
+      console.dir rows
       movies = @state.movies.concat rows
       @setState
         movies: movies
@@ -101,9 +107,21 @@ App = React.createClass
     return if @state.movies.length is 0
     @loadMore()
 
+  onChangeSortColumn: (column) ->
+    @setState
+      movies: []
+      sortColumn: column
+
+  onChangeSortOrder: (descend) ->
+    @setState
+      movies: []
+      sortDescend: descend
+
   render: ->
     <div id="app">
-      <HeaderComponent />
+      <HeaderComponent 
+        onChangeSortColumn={@onChangeSortColumn}
+        onChangeSortOrder={@onChangeSortOrder} />
       <div className="flex">
         <div id="movies">
           {@renderMovies()}

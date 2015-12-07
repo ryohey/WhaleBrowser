@@ -5,6 +5,7 @@ MovieEntity = require "./movie_entity.coffee"
 
 coffeePath = "./node_modules/coffee-script/bin/coffee"
 
+
 ###
 options =
   path: "/path/to/"
@@ -25,11 +26,12 @@ module.exports = class
     console.log "open #{dbFilePath} ..."
     @child = child_process.spawn "node", [coffeePath, "../backend/database.coffee", dbFilePath]
 
-  getNextMovies: (lastMovieId, callback) ->
+  selectAll: (query, callback) ->
     @child.stdout.once "data", (chunk) =>
       try
         movies = JSON.parse chunk
       catch e
+        console.error chunk.toString()
         return callback e, null
 
       movieEntities = (for m in movies
@@ -42,8 +44,6 @@ module.exports = class
     @child.stderr.once "data", (chunk) =>
       callback chunk.toString(), null
 
-    @child.stdin.write """
-      select * from movie
-      where movie_id > #{lastMovieId}
-      order by movie_id
-      limit 10"""
+    q = query.build()
+    console.log q
+    @child.stdin.write q 

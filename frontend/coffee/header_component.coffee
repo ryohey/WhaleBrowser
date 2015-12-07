@@ -1,4 +1,5 @@
 React = require "react"
+Select = require "./select_component.coffee"
 
 keys = [
   "movie_id"
@@ -34,12 +35,18 @@ keys = [
 ]
 
 module.exports = React.createClass 
+  onChangeSortOrder: (e) ->
+    @props.onChangeSortOrder e.target.checked
+
   render: ->
-    options = (for key in keys
-      <option>{key}</option>
-    )
     <div id="header">
       <input type="text" />
       <button>clear</button>
-      <select>{options}</select>
+      <Select 
+        onChange={@props.onChangeSortColumn} 
+        options={keys} />
+      <input
+          type="checkbox"
+          onChange={@onChangeSortOrder}
+        />
     </div>
