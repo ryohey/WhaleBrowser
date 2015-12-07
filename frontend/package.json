@@ -5,10 +5,11 @@
   "main": "js/main.js",
   "scripts": {
     "start": "electron .",
-    "watch-main": "cjsx -o js -cw coffee/main.coffee",
-    "watch-app": "watchify -t coffee-reactify coffee/app.coffee -o js/app.js --poll --verbose",
+    "watch:main": "cjsx -o js -cw coffee/main.coffee",
+    "watch:app": "watchify -t coffee-reactify coffee/app.coffee -o js/app.js --poll --verbose",
     "build-css": "node-sass --include-path sass sass/main.sass css/main.css --source-map true",
-    "watch-css": "nodemon -e sass -x \"npm run build-css\""
+    "watch:css": "nodemon -e sass -x \"npm run build-css\"",
+    "watch": "npm-run-all --parallel watch:*"
   },
   "license": "MIT",
   "devDependencies": {
@@ -18,6 +19,7 @@
     "electron-rebuild": "^1.0.2",
     "node-sass": "^3.4.2",
     "nodemon": "^1.8.1",
+    "npm-run-all": "^1.3.4",
     "watchify": "^3.6.0"
   },
   "dependencies": {
