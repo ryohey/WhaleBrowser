@@ -44,6 +44,5 @@ module.exports = class
     @child.stderr.once "data", (chunk) =>
       callback chunk.toString(), null
 
-    q = query.build()
-    console.log q
-    @child.stdin.write q 
+    console.log query
+    @child.stdin.write query

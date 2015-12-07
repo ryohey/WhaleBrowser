@@ -1,6 +1,7 @@
 React = require "react"
 
 timeString = (seconds) ->
+  return "" if seconds < 0
   hou = Math.floor(seconds / 60 / 60)
   hh = if hou > 0 then "#{hou}時間" else ""
   seconds -= hou * 60 * 60
@@ -15,7 +16,6 @@ timeString = (seconds) ->
 module.exports = React.createClass 
   render: ->
     className = if @props.movie.isSelected then "selected" else ""
-    time = 
     <div 
       className="movie #{className}"
       onClick={@props.onClick}

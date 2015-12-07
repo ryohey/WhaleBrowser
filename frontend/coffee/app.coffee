@@ -36,7 +36,7 @@ db.start()
 
 App = React.createClass 
   createQuery: -> 
-    new Query(_u.last(@state.movies), @state.sortColumn, @state.sortDescend)
+    Query.select @state.sortColumn, @state.movies.length, @state.sortDescend
 
   getInitialState: ->
     movies: []

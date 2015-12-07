@@ -1,19 +1,16 @@
-module.exports = class
-  constructor: (lastMovie, column, descend = false) ->
-    @lastMovie = lastMovie
-    @column = column
-    @descend = descend
-
-  build: ->
-    where = ""
-    last = @lastMovie?[@column]
-    if last
-      c = if @descend then "<" else ">"
-      where = "where #{@column} #{c} '#{last}'"
-
-    order = if @descend then "DESC" else "ASC"
+module.exports =
+  select: (column, offset = 0, descend = false) ->
+    order = if descend then "DESC" else "ASC"
     """
     select * from movie
-    #{where}
-    order by #{@column} #{order}
-    limit 10"""
+    order by #{column} #{order}
+    limit 10
+    offset #{offset}"""
+
+  search: (text, offset = 0, descend = false) ->
+    order = if descend then "DESC" else "ASC"
+    """
+    select * from movie
+    where movie_name
+    order by #{column} #{order}
+    like '%{text}%'"""
