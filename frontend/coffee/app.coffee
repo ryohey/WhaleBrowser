@@ -35,8 +35,6 @@ db = new Database
 db.start()
 
 App = React.createClass 
-  createQuery: -> 
-    Query.select @state.sortColumn, @state.movies.length, @state.sortDescend
 
   getInitialState: ->
     movies: []
@@ -47,7 +45,10 @@ App = React.createClass
     @loadMore()
 
   componentDidUpdate: (prevProps, prevState) ->
-    if @state.sortColumn isnt prevState.sortColumn or @state.sortDescend isnt prevState.sortDescend
+    if @state.sortColumn isnt prevState.sortColumn or @state.sortDescend isnt prevState.sortDescend or @state.searchText isnt prevState.searchText
+      @setState
+        movies: []
+
       @loadMore()
 
   onClickMovie: (index) ->
@@ -92,7 +93,11 @@ App = React.createClass
           movies: @state.movies
 
   loadMore: ->
-    q = @createQuery()
+    q = if @state.searchText?.length > 0
+      Query.find @state.searchText, @state.sortColumn, @state.movies.length, @state.sortDescend 
+    else
+      Query.select @state.sortColumn, @state.movies.length, @state.sortDescend
+
     db.selectAll q, (error, rows) =>
       if error?
         console.error error
@@ -109,17 +114,20 @@ App = React.createClass
 
   onChangeSortColumn: (column) ->
     @setState
-      movies: []
       sortColumn: column
 
   onChangeSortOrder: (descend) ->
     @setState
-      movies: []
       sortDescend: descend
+
+  onChangeSearchText: (text) ->
+    @setState
+      searchText: text
 
   render: ->
     <div id="app">
       <HeaderComponent 
+        onChangeSearchText={@onChangeSearchText}
         onChangeSortColumn={@onChangeSortColumn}
         onChangeSortOrder={@onChangeSortOrder} />
       <div className="flex">

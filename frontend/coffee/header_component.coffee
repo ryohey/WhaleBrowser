@@ -38,15 +38,24 @@ module.exports = React.createClass
   onChangeSortOrder: (e) ->
     @props.onChangeSortOrder e.target.checked
 
+  onChangeSearchText: (e) ->
+    @props.onChangeSearchText e.target.value
+
+  onClickClearButton: ->
+    true
+
   render: ->
     <div id="header">
-      <input type="text" />
-      <button>clear</button>
+      <input type="text" onChange={@onChangeSearchText} />
+      <button onClick={@onClickClearButton}>clear</button>
       <Select 
         onChange={@props.onChangeSortColumn} 
         options={keys} />
-      <input
-          type="checkbox"
-          onChange={@onChangeSortOrder}
-        />
+      <div className="group">
+        <label>降順</label>
+        <input
+            type="checkbox"
+            onChange={@onChangeSortOrder}
+          />
+      </div>
     </div>
