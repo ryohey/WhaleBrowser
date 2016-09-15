@@ -4,27 +4,31 @@
   "description": "White whale",
   "main": "js/main.js",
   "scripts": {
-    "start": "electron .",
-    "watch:main": "cjsx -o js -cw coffee/main.coffee",
-    "watch:app": "watchify -t coffee-reactify coffee/app.coffee -o js/app.js --poll --verbose",
-    "build-css": "node-sass --include-path sass sass/main.sass css/main.css --source-map true",
-    "watch:css": "nodemon -e sass -x \"npm run build-css\"",
-    "watch": "npm-run-all --parallel watch:*"
+    "launch": "electron ./js/main.js",
+    "watch:app": "webpack-dev-server",
+    "start": "npm-run-all --parallel watch:*"
   },
   "license": "MIT",
-  "devDependencies": {
-    "coffee-react": "^4.0.0",
-    "coffee-reactify": "^4.0.0",
-    "electron-prebuilt": "^0.34.0",
-    "electron-rebuild": "^1.0.2",
-    "node-sass": "^3.4.2",
-    "nodemon": "^1.8.1",
-    "npm-run-all": "^1.3.4",
-    "watchify": "^3.6.0"
-  },
   "dependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "coffee-script": "^1.10.0",
+    "css-loader": "^0.25.0",
+    "electron-prebuilt": "1.4.0",
+    "eslint": "^3.5.0",
+    "eslint-loader": "^1.5.0",
+    "eslint-plugin-react": "^6.2.2",
+    "lodash": "^4.15.0",
+    "node-sass": "^3.4.2",
+    "npm-run-all": "^1.3.4",
     "react": "^0.14.3",
     "react-waypoint": "^1.1.2",
-    "underscore": "^1.8.3"
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.2"
   }
 }

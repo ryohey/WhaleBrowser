@@ -1,4 +1,5 @@
-app = require("app") # Module to control application life.
+electron = require "electron"
+app = electron.app # Module to control application life.
 BrowserWindow = require("browser-window") # Module to create native browser window.
 
 # Report crashes to our server.
@@ -10,7 +11,7 @@ mainWindow = null
 
 # Quit when all windows are closed.
 app.on "window-all-closed", ->
-  
+
   # On OS X it is common for applications and their menu bar
   # to stay active until the user quits explicitly with Cmd + Q
   app.quit()  unless process.platform is "darwin"
@@ -19,7 +20,7 @@ app.on "window-all-closed", ->
 # This method will be called when Electron has finished
 # initialization and is ready to create browser windows.
 app.on "ready", ->
-  
+
   # Create the browser window.
   mainWindow = new BrowserWindow(
     width: 800
@@ -28,13 +29,13 @@ app.on "ready", ->
 
   # and load the index.html of the app.
   mainWindow.loadUrl "file://" + __dirname + "/../index.html"
-  
+
   # Open the DevTools.
   mainWindow.webContents.openDevTools()
-  
+
   # Emitted when the window is closed.
   mainWindow.on "closed", ->
-    
+
     # Dereference the window object, usually you would store windows
     # in an array if your app supports multi windows, this is the time
     # when you should delete the corresponding element.
