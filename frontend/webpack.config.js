@@ -3,6 +3,7 @@ const path = require("path")
 module.exports = {
   context: path.join(__dirname, "src"),
   devtool: "inline-source-map",
+  target: "electron",
   entry: {
     javascript: './index.js'
   },
@@ -32,6 +33,10 @@ module.exports = {
         test: /\.sass$/,
         exclude: /node_modules/,
         loaders: ["style", "css", "sass"]
+      },
+      {
+        test: /\.json$/,
+        loader: "json"
       }
     ]
   }

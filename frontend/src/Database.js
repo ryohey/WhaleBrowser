@@ -1,8 +1,6 @@
 const { remote } = window.require("electron")
-const child_process = remote.require("child_process")
 import MovieEntity from "./MovieEntity"
-
-const coffeePath = "./node_modules/coffee-script/bin/coffee"
+const sqlite3 = window.require("sqlite3").verbose()
 
 /**
 options =
@@ -24,32 +22,25 @@ export default class Database {
   start() {
     const dbFilePath = `${this.path}${this.file}.wb`
     console.log(`open ${dbFilePath} ...`)
-    this.child = child_process.spawn("node", [coffeePath, "../backend/database.coffee", dbFilePath])
+    this.sqlite = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, e => {
+      console.error(e)
+    })
   }
 
   selectAll(query, callback) {
-    this.child.stdout.once("data", chunk => {
-      let movies
-      try {
-        movies = JSON.parse(chunk)
-      } catch(e) {
-        console.error(chunk.toString())
-        return callback(e, null)
+    this.sqlite.all(query, (err, movies) => {
+      if (err) {
+        return callback(err)
       }
 
-      const movieEntities = movies.map(m => {
-        m.thumbnailDir = this.getThumbnailDir()
-        return new MovieEntity(m)
-      })
+      const movieEntities = movies.map(m =>
+        new MovieEntity({
+          thumbnailDir: this.getThumbnailDir(),
+          ...m
+        })
+      )
 
       callback(null, movieEntities)
     })
-
-    this.child.stderr.once("data", chunk => {
-      callback(chunk.toString(), null)
-    })
-
-    console.log(query)
-    this.child.stdin.write(query)
   }
 }
