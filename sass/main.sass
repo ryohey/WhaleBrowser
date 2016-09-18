@@ -1,0 +1,111 @@
+body
+  background-color: #101010
+  line-height: 1.5
+  color: white
+  font-family: "Yu Gothic"
+  margin: 0
+
+#app
+  margin-top: 3em
+  
+  .flex
+    display: flex
+
+#header
+  position: fixed
+  top: 0
+  z-index: 1000
+  width: 100%
+  padding: 0.5em
+  background-color: #101010
+  border-bottom: 2px solid black
+
+  button
+    margin-right: 1em
+    color: white
+    border: none
+    background: none
+    cursor: pointer
+
+  input[type="text"]
+    background-color: #2F2F2F
+    border: none
+    padding: 0.4em
+    color: white
+
+  select
+    background-color: #2F2F2F
+    border: none
+    color: #568AEA
+    padding: 0.2em
+    margin-right: 1em
+
+  .group
+    display: inline-block
+
+#movies
+  overflow: hidden
+  width: calc(100% - 15em)
+  border-right: 1px solid #404040
+
+  // WayPoint
+  >span   
+    display: block
+    clear: both
+
+  .movie.selected
+    border-color: blue
+
+  .movie
+    border: 1px solid transparent
+    box-sizing: border-box
+    float: left
+    width: 10em
+    height: 12em
+    position: relative
+    cursor: pointer
+    margin: 0.25em
+    padding: 0.5em
+
+    .image  
+      background-color: black
+      height: 8em
+      overflow: hidden
+
+      img
+        min-width: 100%
+        min-height: 100%
+
+    .name
+      position: absolute
+      bottom: 1.4em
+      width: 100%
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      font-size: 0.8em
+      font-weight: bold
+
+    .time
+      position: absolute
+      bottom: 0em
+      font-size: 0.8em
+      opacity: 0.5
+     
+#preview
+  width: 15em
+  position: fixed
+  padding: 1em
+  box-sizing: border-box
+  height: 100%
+  overflow: auto
+  
+  img
+    width: 12em
+
+  dt
+    font-weight: bold
+  
+  dd
+    margin-left: 0
+    margin-bottom: 1em
