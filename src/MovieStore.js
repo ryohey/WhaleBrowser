@@ -7,6 +7,7 @@ import _ from "lodash"
 import path from "path"
 const { remote } = window.require("electron")
 const fs = remote.require("fs")
+import MovieRecord from "./MovieRecord"
 
 function createMovieEntities(rows, thumbnailDir) {
   return rows.map(r =>
@@ -55,6 +56,18 @@ export default class MovieStore {
     this.setDatabasePath(dbFile)
 
     observable(this)
+  }
+
+  add(filePath) {
+    new MovieRecord(filePath)
+      .inspect((error, r) => {
+        if (error) {
+          return console.error(error)
+        }
+        this.db.insert(r, error => {
+          if (error) { console.error(error) }
+        })
+      })
   }
 
   setDatabasePath(file) {

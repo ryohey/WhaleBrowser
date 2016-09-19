@@ -23,4 +23,10 @@ export default class Database {
   delete(movie_id, callback) {
     this.sqlite.run(`delete from movie where movie_id=${movie_id}`, callback)
   }
+
+  insert(record, callback) {
+    const q = `insert into movie ${record.build()}`
+    debugger
+    this.sqlite.run(q, callback)
+  }
 }
