@@ -18,7 +18,7 @@ function timeString(seconds) {
 export default function MovieComponent(props) {
   const onContextMenu = e => {
     e.preventDefault()
-    showMovieContextMenu(props.movie)
+    showMovieContextMenu(props.movie, props)
   }
 
   const className = props.movie.isSelected ? "selected" : ""

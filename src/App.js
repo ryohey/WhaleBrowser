@@ -38,13 +38,18 @@ class App extends Component {
       child_process.exec(`explorer ${movie.movie_path}`)
     }
 
+    const onClickMenuDelete = (movie) => {
+      movieStore.delete(movie)
+    }
+
     const renderMovies = () => {
       return movies.map(movie => {
         return <MovieComponent
           movie={movie}
           key={movie.movie_id}
           onClick={() => onClickMovie(movie)}
-          onDoubleClick={() => onDoubleClickMovie(movie)} />
+          onDoubleClick={() => onDoubleClickMovie(movie)}
+          onClickMenuDelete={() => onClickMenuDelete(movie)} />
       })
     }
 

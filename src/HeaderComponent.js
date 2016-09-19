@@ -41,11 +41,8 @@ export default function HeaderComponent(props) {
   const onChangeSearchText = (e) =>
     props.onChangeSearchText(e.target.value)
 
-  const onClickClearButton = () => {}
-
   return <div id="header">
     <input type="text" onChange={onChangeSearchText} />
-    <button onClick={onClickClearButton}>clear</button>
     <Select
       onChange={props.onChangeSortColumn}
       options={keys} />

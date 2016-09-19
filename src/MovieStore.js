@@ -108,6 +108,19 @@ export default class MovieStore {
     this.emitChanges()
   }
 
+  delete(movie) {
+    this.setMovies(_.reject(this.movies, movie))
+    this.db.delete(movie.movie_id, error => {
+      if (error) { console.error(error) }
+    })
+    fs.unlink(movie.movie_path, error => {
+      if (error) { console.error(`failed to remove item: ${movie.movie_path}`) }
+    })
+    fs.unlink(movie.getThumbnailPath(), error => {
+      if (error) { console.error(`failed to remove thumbnail: ${movie.getThumbnailPath()}`) }
+    })
+  }
+
   updateField(name, value) {
     if (this[name] === value) {
       return

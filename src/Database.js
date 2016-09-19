@@ -22,4 +22,8 @@ export default class Database {
   selectAll(query, callback) {
     this.sqlite.all(query, callback)
   }
+
+  delete(movie_id, callback) {
+    this.sqlite.run(`delete from movie where movie_id=${movie_id}`, callback)
+  }
 }
