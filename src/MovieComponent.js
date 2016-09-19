@@ -1,4 +1,5 @@
 import React from "react"
+import showMovieContextMenu from "./showMovieContextMenu"
 
 function timeString(seconds) {
   if (seconds < 0) return ""
@@ -15,11 +16,18 @@ function timeString(seconds) {
 }
 
 export default function MovieComponent(props) {
+  const onContextMenu = e => {
+    e.preventDefault()
+    showMovieContextMenu(props.movie)
+  }
+
   const className = props.movie.isSelected ? "selected" : ""
+
   return <div
     className={`movie ${className}`}
     onClick={props.onClick}
-    onDoubleClick={props.onDoubleClick}>
+    onDoubleClick={props.onDoubleClick}
+    onContextMenu={onContextMenu}>
     <div className="image">
       <img src={props.movie.getThumbnailURL()} />
     </div>
