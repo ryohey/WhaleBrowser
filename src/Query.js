@@ -2,21 +2,14 @@ const orderStr = (descend) =>
   descend ? "DESC" : "ASC"
 
 export default {
-  select: (column, offset = 0, descend = false) => {
-    return `
-      select * from movie
-      order by ${column} ${orderStr(descend)}
-      limit 10
-      offset ${offset}`
-  },
+  select: (text, sortColumn, offset = 0, descend = false, limit = 50) => {
+    const where = (text && text.length > 0) ?
+      `where movie_name like '%${text}%'` : ""
 
-  find: (text, column, offset = 0, descend = false) => {
-    return `
-      select * from movie
-      where movie_name
-      like '%${text}%'
-      order by ${column} ${orderStr(descend)}
-      limit 10
+    return `select * from movie
+      ${where}
+      order by ${sortColumn} ${orderStr(descend)}
+      limit ${limit}
       offset ${offset}`
   }
 }

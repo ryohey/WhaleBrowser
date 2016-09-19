@@ -79,4 +79,4 @@ export default function(options, callback) {
 
   child_process.exec(`${processPath} ${args.join(" ")}`, commandOptions, callback)
   // child_process.exec `${processPath} ${args.join(" ")}`, callback
- }
+}

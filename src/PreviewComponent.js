@@ -2,11 +2,11 @@ import React from "react"
 import _ from "lodash"
 
 function json2html(obj) {
-  if (obj instanceof Array) {
+  if (_.isArray(obj)) {
     const list = _.values(obj).map(o => json2html(o))
     return <ul>{list}</ul>
-  } else if (obj instanceof Object) {
-    const list = _.entries(obj, e => [
+  } else if (_.isObject(obj)) {
+    const list = _.entries(obj).map(e => [
       <dt>{e[0]}</dt>,
       <dd>{json2html(e[1])}</dd>
     ])

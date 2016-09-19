@@ -25,7 +25,7 @@ module.exports = {
     ],
     "no-unused-vars": "warn",
     "comma-dangle": "off",
-    "no-console": "warn",
+    "no-console": "off",
     "no-debugger": "warn",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
