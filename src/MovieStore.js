@@ -17,7 +17,10 @@ function createMovieEntities(rows, thumbnailDir) {
   )
 }
 
-function createThumbnailDir(baseDir, { width, height, column, row }) {
+function createThumbnailDir(dbFile, { width, height, column, row }) {
+  const dir = path.dirname(dbFile)
+  const dbName = path.parse(dbFile).name
+  const baseDir = path.join(dir, "thum", dbName)
   return path.join(baseDir, `${width}x${height}x${column}x${row}`)
 }
 
@@ -42,19 +45,33 @@ function createThumbnailIfNeeded(movie, callback) {
 }
 
 export default class MovieStore {
-  constructor(dbPath, dbFile, thumbnailSize) {
+  constructor(dbFile, thumbnailSize) {
     this.movies = []
     this.searchText = ""
     this.sortColumn = "movie_id"
     this.sortDescend = false
 
-    this.thumbnailBaseDir = path.join(dbPath, "thum", dbFile)
-    this.thumbnailDir = createThumbnailDir(this.thumbnailBaseDir, thumbnailSize)
-
-    this.db = new Database(dbPath, dbFile)
-    this.db.start()
+    this.thumbnailSize = thumbnailSize
+    this.setDatabasePath(dbFile)
 
     observable(this)
+  }
+
+  setDatabasePath(file) {
+    if (file === this.dbFile) {
+      return
+    }
+    if (this.db) {
+      this.db.close(error => {
+        if (error) { console.error(error) }
+      })
+    }
+    this.dbFile = file
+    this.db = new Database(file)
+  }
+
+  get thumbnailDir() {
+    return createThumbnailDir(this.dbFile, this.thumbnailSize)
   }
 
   setMovies(movies) {
@@ -81,7 +98,7 @@ export default class MovieStore {
   }
 
   loadMore() {
-    if (this.isLoading) {
+    if (!this.db || this.isLoading) {
       return
     }
 
@@ -132,8 +149,5 @@ export default class MovieStore {
   setSearchText(t) { this.updateField("searchText", t) }
   setSortColumn(c) { this.updateField("sortColumn", c) }
   setSortDescend(d) { this.updateField("sortDescend", d) }
-
-  setThumbnailSize(size) {
-    this.updateField("thumbnailDir", createThumbnailDir(this.thumbnailBaseDir, size))
-  }
+  setThumbnailSize(s) { this.updateField("thumbnailSize", s) }
 }

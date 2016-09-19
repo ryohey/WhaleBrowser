@@ -1,22 +1,19 @@
 const sqlite3 = window.require("sqlite3").verbose()
-import path from "path"
 
 /**
   path: "/path/to/"
   file: "hogefuga"
 */
 export default class Database {
-  constructor(path, file) {
-    this.path = path
-    this.file = file
-  }
-
-  start() {
-    const dbFilePath = path.join(this.path, `${this.file}.wb`)
-    console.log(`open ${dbFilePath} ...`)
-    this.sqlite = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, e => {
+  constructor(file) {
+    console.log(`open ${file} ...`)
+    this.sqlite = new sqlite3.Database(file, sqlite3.OPEN_READWRITE, e => {
       if (e) { console.error(e) }
     })
+  }
+
+  close(callback) {
+    this.sqlite.close(callback)
   }
 
   selectAll(query, callback) {

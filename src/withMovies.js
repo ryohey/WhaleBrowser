@@ -8,7 +8,7 @@ export default function withMovies(WrappedComponent) {
       this.state = {
         movies: []
       }
-      this.movieStore = new MovieStore("G:\\Program Files\\WhiteBrowser", "db", {
+      this.movieStore = new MovieStore("G:\\Program Files\\WhiteBrowser\\db.wb", {
         width: 200,
         height: 150,
         column: 3,
