@@ -1,5 +1,5 @@
 import React from "react"
-import showMovieContextMenu from "./showMovieContextMenu"
+import showMovieContextMenu from "../showMovieContextMenu"
 
 function timeString(seconds) {
   if (seconds < 0) return ""
@@ -15,7 +15,7 @@ function timeString(seconds) {
   return `${hh}${mm}${ss}`
 }
 
-export default function MovieComponent(props) {
+export default function Movie(props) {
   const onContextMenu = e => {
     e.preventDefault()
     showMovieContextMenu(props.movie, props)

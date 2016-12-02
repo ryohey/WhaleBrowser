@@ -1,5 +1,5 @@
 import React from "react"
-import Select from "./SelectComponent"
+import Select from "./Select"
 
 const keys = [
   "movie_id",
@@ -34,7 +34,7 @@ const keys = [
   "comment3"
 ]
 
-export default function HeaderComponent(props) {
+export default function Header(props) {
   const onChangeSortOrder = (e) =>
     props.onChangeSortOrder(e.target.checked)
 

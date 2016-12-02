@@ -15,7 +15,7 @@ or
 
 options = ["hogefuga", "foobar" ...]
 */
-export default function SelectComponent(props) {
+export default function Select(props) {
   const onChange = (e) => {
     const value = _.find(e.target.options, o => o.selected).value
     props.onChange(value)

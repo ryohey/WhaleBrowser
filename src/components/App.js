@@ -10,10 +10,10 @@ import Waypoint from "react-waypoint"
 
 // components
 
-import MovieComponent from "./MovieComponent"
-import PreviewComponent from "./PreviewComponent"
-import HeaderComponent from "./HeaderComponent"
-import withMovies from "./withMovies"
+import MovieComponent from "./Movie"
+import PreviewComponent from "./Preview"
+import HeaderComponent from "./Header"
+import withMovies from "../withMovies"
 
 import "../sass/main.sass"
 

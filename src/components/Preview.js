@@ -15,7 +15,7 @@ function json2html(obj) {
   return obj.toString()
 }
 
-export default function PreviewComponent(props) {
+export default function Preview(props) {
   function getSelectedMovie() {
     return _.find(props.movies, m => m.isSelected)
   }
