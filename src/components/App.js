@@ -8,9 +8,11 @@ import React, { Component } from "react"
 
 // material ui
 
-import { Drawer, MenuItem } from "material-ui"
+import { Drawer, MenuItem, Subheader, Divider, ListItem, Avatar } from "material-ui"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import getMuiTheme from "material-ui/styles/getMuiTheme"
+import VideoLibraryIcon from "material-ui/svg-icons/av/video-library"
+import ActionInfoIcon from "material-ui/svg-icons/action/info"
 import theme from "../theme"
 
 // http://stackoverflow.com/a/34015469/988941
@@ -57,16 +59,22 @@ class App extends Component {
 
     return <MuiThemeProvider muiTheme={getMuiTheme(theme)}><div id="app">
       <HeaderComponent
-        title={movieStore.name}
         onChangeSearchText={t => movieStore.setSearchText(t)}
         onChangeSortColumn={c => movieStore.setSortColumn(c)}
         onChangeSortOrder={d => movieStore.setSortDescend(d)}
         onClickMenuButton={() => this.setState({ isDrawerOpened: true })} />
       <Drawer
+        docked={false}
         open={this.state.isDrawerOpened}
         onRequestChange={open => this.setState({ isDrawerOpened: open })}>
-        <MenuItem>Menu Item</MenuItem>
-        <MenuItem>Menu Item 2</MenuItem>
+        <Subheader>Database</Subheader>
+        <ListItem
+          leftAvatar={<Avatar icon={<VideoLibraryIcon />} />}
+          rightIcon={<ActionInfoIcon />}
+          primaryText={movieStore.name}
+        />
+        <Divider />
+        <MenuItem>Settings</MenuItem>
       </Drawer>
       <div className="flex">
         <MovieList
