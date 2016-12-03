@@ -1,4 +1,5 @@
-const sqlite3 = window.require("sqlite3").verbose()
+import sql from "sql.js"
+import fs from "fs"
 
 /**
   path: "/path/to/"
@@ -7,26 +8,33 @@ const sqlite3 = window.require("sqlite3").verbose()
 export default class Database {
   constructor(file) {
     console.log(`open ${file} ...`)
-    this.sqlite = new sqlite3.Database(file, sqlite3.OPEN_READWRITE, e => {
-      if (e) { console.error(e) }
-    })
+    const filebuffer  = fs.readFileSync(file)
+    this.sqlite = new sql.Database(filebuffer)
   }
 
   close(callback) {
-    this.sqlite.close(callback)
   }
 
   selectAll(query, callback) {
-    this.sqlite.all(query, callback)
+    const stmt = this.sqlite.prepare(query)
+    const rows = []
+    while(stmt.step()) {
+        const row = stmt.getAsObject()
+        rows.push(row)
+    }
+    callback(null, rows)
   }
 
   delete(movie_id, callback) {
-    this.sqlite.run(`delete from movie where movie_id=${movie_id}`, callback)
+    const result = this.sqlite.run(`delete from movie where movie_id=${movie_id}`, callback)
+    debugger
+    callback(result)
   }
 
   insert(record, callback) {
     const q = `insert into movie ${record.build()}`
+    const result = this.sqlite.run(q, callback)
     debugger
-    this.sqlite.run(q, callback)
+    callback(result)
   }
 }
