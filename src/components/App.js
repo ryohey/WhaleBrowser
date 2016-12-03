@@ -24,6 +24,7 @@ injectTapEventPlugin()
 import MovieList from "./MovieList"
 import PreviewComponent from "./Preview"
 import HeaderComponent from "./Header"
+import Footer from "./Footer"
 import withMovies from "../withMovies"
 
 import "../sass/main.sass"
@@ -85,6 +86,8 @@ class App extends Component {
           loadMore={() => movieStore.loadMore()} />
         <PreviewComponent movies={movies} />
       </div>
+      {this.props.children}
+      <Footer />
     </div></MuiThemeProvider>
   }
 }

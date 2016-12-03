@@ -5,7 +5,7 @@
   "main": "js/main.js",
   "scripts": {
     "start": "electron ./src/main.js",
-    "watch": "webpack-dev-server",
+    "watch": "webpack-dev-server --progress --inline --hot",
     "rebuild": "electron-rebuild -w sqlite3 -p"
   },
   "license": "MIT",
@@ -30,6 +30,7 @@
     "npm-run-all": "^3.1.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-router": "^3.0.0",
     "react-tap-event-plugin": "^2.0.1",
     "react-waypoint": "^4.1.0",
     "riot-observable": "^3.0.0",
@@ -39,5 +40,8 @@
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
     "xml2js": "^0.4.17"
+  },
+  "devDependencies": {
+    "babel-preset-react-hmre": "^1.1.1"
   }
 }
