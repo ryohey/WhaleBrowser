@@ -58,6 +58,10 @@ export default class MovieStore {
     observable(this)
   }
 
+  get name() {
+    return path.basename(this.dbFile)
+  }
+
   add(filePath) {
     new MovieRecord(filePath)
       .inspect((error, r) => {

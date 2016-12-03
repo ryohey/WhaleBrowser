@@ -1,16 +1,25 @@
 // builtin modules
-
 const { remote } = window.require("electron")
 const child_process = remote.require("child_process")
-import React, { Component } from "react"
 
 // additional modules
 
-import Waypoint from "react-waypoint"
+import React, { Component } from "react"
+
+// material ui
+
+import { Drawer, MenuItem } from "material-ui"
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
+import getMuiTheme from "material-ui/styles/getMuiTheme"
+import theme from "../theme"
+
+// http://stackoverflow.com/a/34015469/988941
+import injectTapEventPlugin from "react-tap-event-plugin"
+injectTapEventPlugin()
 
 // components
 
-import MovieComponent from "./Movie"
+import MovieList from "./MovieList"
 import PreviewComponent from "./Preview"
 import HeaderComponent from "./Header"
 import withMovies from "../withMovies"
@@ -20,6 +29,10 @@ import "../sass/main.sass"
 class App extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      isDrawerOpened: false
+    }
   }
 
   componentDidMount() {
@@ -42,33 +55,29 @@ class App extends Component {
       movieStore.delete(movie)
     }
 
-    const renderMovies = () => {
-      return movies.map(movie => {
-        return <MovieComponent
-          movie={movie}
-          key={movie.movie_id}
-          onClick={() => onClickMovie(movie)}
-          onDoubleClick={() => onDoubleClickMovie(movie)}
-          onClickMenuDelete={() => onClickMenuDelete(movie)} />
-      })
-    }
-
-    return <div id="app">
+    return <MuiThemeProvider muiTheme={getMuiTheme(theme)}><div id="app">
       <HeaderComponent
+        title={movieStore.name}
         onChangeSearchText={t => movieStore.setSearchText(t)}
         onChangeSortColumn={c => movieStore.setSortColumn(c)}
-        onChangeSortOrder={d => movieStore.setSortDescend(d)} />
+        onChangeSortOrder={d => movieStore.setSortDescend(d)}
+        onClickMenuButton={() => this.setState({ isDrawerOpened: true })} />
+      <Drawer
+        open={this.state.isDrawerOpened}
+        onRequestChange={open => this.setState({ isDrawerOpened: open })}>
+        <MenuItem>Menu Item</MenuItem>
+        <MenuItem>Menu Item 2</MenuItem>
+      </Drawer>
       <div className="flex">
-        <div id="movies">
-          {renderMovies()}
-          <Waypoint
-            onEnter={() => movieStore.loadMore()}
-            onLeave={() => {}}
-            threshold={0.2} />
-        </div>
+        <MovieList
+          movies={movies}
+          onClickMovie={onClickMovie}
+          onDoubleClickMovie={onDoubleClickMovie}
+          onClickMenuDelete={onClickMenuDelete}
+          loadMore={() => movieStore.loadMore()} />
         <PreviewComponent movies={movies} />
       </div>
-    </div>
+    </div></MuiThemeProvider>
   }
 }
 

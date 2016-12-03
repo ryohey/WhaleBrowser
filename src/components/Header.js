@@ -1,4 +1,5 @@
 import React from "react"
+import { AppBar, TextField, Checkbox  } from "material-ui"
 import Select from "./Select"
 
 const keys = [
@@ -34,24 +35,33 @@ const keys = [
   "comment3"
 ]
 
-export default function Header(props) {
+function Content(props) {
   const onChangeSortOrder = (e) =>
     props.onChangeSortOrder(e.target.checked)
 
   const onChangeSearchText = (e) =>
     props.onChangeSearchText(e.target.value)
 
-  return <div id="header">
-    <input type="text" onChange={onChangeSearchText} />
+  return <div className="search-bar">
+    <TextField hintText="Search" onChange={onChangeSearchText} />
     <Select
       onChange={props.onChangeSortColumn}
-      options={keys} />
+      options={keys}
+      label="Sort" />
     <div className="group">
-      <label>降順</label>
-      <input
-          type="checkbox"
-          onChange={onChangeSortOrder}
-        />
+      <Checkbox onChange={onChangeSortOrder} label="降順" />
     </div>
   </div>
+}
+
+export default function Header(props) {
+  return <AppBar
+    title={<Content {...props} />}
+    style={{
+      position: "fixed",
+      top: 0,
+      zIndex: 999
+    }}
+    onLeftIconButtonTouchTap={props.onClickMenuButton}>
+  </AppBar>
 }

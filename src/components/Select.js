@@ -1,4 +1,5 @@
 import React from "react"
+import { SelectField, MenuItem } from "material-ui"
 import _ from "lodash"
 
 /**
@@ -29,7 +30,7 @@ export default function Select(props) {
       u.value = o
       u.label = o
     }
-    return <option value={u.value} key={u.value}>{u.label}</option>
+    return <MenuItem value={u.value} key={u.value} primaryText={u.label} />
   })
-  return <select onChange={onChange}>{options}</select>
+  return <SelectField onChange={onChange}>{options}</SelectField>
 }
