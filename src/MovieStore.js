@@ -1,13 +1,12 @@
 import observable from "riot-observable"
-import Database from "./Database"
-import Query from "./Query"
+import Database from "./models/Database"
 import createThumbnail from "./stm"
 import MovieEntity from "./MovieEntity"
 import _ from "lodash"
 import path from "path"
+import createMovie from "./createMovie"
 const { remote } = window.require("electron")
 const fs = remote.require("fs")
-import MovieRecord from "./MovieRecord"
 
 function createMovieEntities(rows, thumbnailDir) {
   return rows.map(r =>
@@ -63,15 +62,8 @@ export default class MovieStore {
   }
 
   add(filePath) {
-    new MovieRecord(filePath)
-      .inspect((error, r) => {
-        if (error) {
-          return console.error(error)
-        }
-        this.db.insert(r, error => {
-          if (error) { console.error(error) }
-        })
-      })
+    createMovie(filePath)
+      .then(movie => this.db.movie.insert(movie))
   }
 
   setDatabasePath(file) {
@@ -119,20 +111,19 @@ export default class MovieStore {
       return
     }
 
-    const q = Query.select(
+    this.isLoading = true
+
+    this.db.movie.getNext(
       this.searchText,
       this.sortColumn,
       this.movies.length,
       this.sortDescend)
-
-    this.isLoading = true
-
-    this.db.selectAll(q, (error, rows) => {
-      const movies = createMovieEntities(rows, this.thumbnailDir)
-      movies.forEach(m => createThumbnailIfNeeded(m, () => { this.emitChanges() }))
-      this.setMovies(this.movies.concat(movies))
-      this.isLoading = false
-    })
+      .then(rows => {
+        const movies = createMovieEntities(rows, this.thumbnailDir)
+        movies.forEach(m => createThumbnailIfNeeded(m, () => { this.emitChanges() }))
+        this.setMovies(this.movies.concat(movies))
+        this.isLoading = false
+      })
   }
 
   select(movie) {
