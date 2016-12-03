@@ -31,7 +31,7 @@ function createThumbnailIfNeeded(movie, callback) {
     if (exists) return
     createThumbnail({
       input: movie.movie_path,
-      output: `#{movie.thumbnailDir}*.jpg`,
+      output: `${movie.thumbnailDir}*.jpg`,
       addHash: true
     }, error => {
       if (error) {
