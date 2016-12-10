@@ -2,7 +2,7 @@ const path = require("path")
 
 module.exports = {
   context: path.join(__dirname, "src"),
-  devtool: "inline-source-map",
+  devtool: "cheap-module-inline-source-map",
   target: "electron",
   entry: {
     javascript: './index.js'
