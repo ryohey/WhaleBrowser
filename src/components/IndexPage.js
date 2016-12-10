@@ -2,20 +2,21 @@ const { remote } = window.require("electron")
 const child_process = remote.require("child_process")
 
 import React, { Component } from "react"
+import { observer, inject } from "mobx-react"
 
 import MovieList from "./MovieList"
 import PreviewComponent from "./Preview"
 import HeaderComponent from "./Header"
 
-import withMovies from "../withMovies"
-
+@inject("movieStore", "navStore") @observer
 class IndexPage extends Component {
   componentDidMount() {
     this.props.movieStore.loadMore()
   }
 
   render() {
-    const { movies, movieStore, openDrawer } = this.props
+    const { movieStore, navStore } = this.props
+    const { movies } = movieStore
 
     const onClickMovie = movie => {
       movieStore.select(movie)
@@ -34,7 +35,7 @@ class IndexPage extends Component {
         onChangeSearchText={t => movieStore.setSearchText(t)}
         onChangeSortColumn={c => movieStore.setSortColumn(c)}
         onChangeSortOrder={d => movieStore.setSortDescend(d)}
-        onClickMenuButton={openDrawer} />
+        onClickMenuButton={() => navStore.isDrawerOpened = true} />
       <div className="flex">
         <MovieList
           movies={movies}
@@ -48,4 +49,4 @@ class IndexPage extends Component {
   }
 }
 
-export default withMovies(IndexPage)
+export default IndexPage

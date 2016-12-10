@@ -17,6 +17,5 @@ export default class Database {
     this.watch = new WatchTable(this.sqlite)
   }
 
-  close(callback) {
-  }
+  close() {}
 }

@@ -1,12 +1,13 @@
-import observable from "riot-observable"
-import Database from "./models/Database"
-import createThumbnail from "./stm"
-import MovieEntity from "./MovieEntity"
-import _ from "lodash"
-import path from "path"
-import createMovie from "./createMovie"
 const { remote } = window.require("electron")
 const fs = remote.require("fs")
+
+import { observable } from "mobx"
+import _ from "lodash"
+import path from "path"
+import Database from "../models/Database"
+import MovieEntity from "../MovieEntity"
+import createMovie from "../createMovie"
+import createThumbnail from "../stm"
 
 function createMovieEntities(rows, thumbnailDir) {
   return rows.map(r =>
@@ -38,13 +39,15 @@ function createThumbnailIfNeeded(movie, callback) {
         return
       }
       console.log(`created the thumbnail for ${movie.movie_name}`)
-      movie.isThumbnailCreated = true
       callback()
     })
   })
 }
 
 export default class MovieStore {
+  @observable movies = []
+  @observable isLoading = false
+
   constructor(dbFile, thumbnailSize) {
     this.movies = []
     this.searchText = ""
@@ -53,8 +56,6 @@ export default class MovieStore {
 
     this.thumbnailSize = thumbnailSize
     this.setDatabasePath(dbFile)
-
-    observable(this)
   }
 
   get name() {
@@ -85,20 +86,10 @@ export default class MovieStore {
 
   setMovies(movies) {
     this.movies = movies
-    this.emitChanges()
   }
 
   clear() {
     this.movies = []
-    this.emitChanges()
-  }
-
-  emitChanges() {
-    this.trigger("change")
-  }
-
-  onChange(callback) {
-    this.on("change", () => callback(this.movies))
   }
 
   update() {
@@ -120,7 +111,10 @@ export default class MovieStore {
       this.sortDescend)
       .then(rows => {
         const movies = createMovieEntities(rows, this.thumbnailDir)
-        movies.forEach(m => createThumbnailIfNeeded(m, () => { this.emitChanges() }))
+        movies.forEach(m => createThumbnailIfNeeded(m, () => {
+          m.isThumbnailCreated = true
+          this.setMovies(this.movies)
+        }))
         this.setMovies(this.movies.concat(movies))
         this.isLoading = false
       })
@@ -130,7 +124,6 @@ export default class MovieStore {
     for (const m of this.movies) {
       m.isSelected = m.movie_id === movie.movie_id
     }
-    this.emitChanges()
   }
 
   delete(movie) {

@@ -1,14 +1,10 @@
-const { remote } = window.require("electron")
-const child_process = remote.require("child_process")
 import React, { Component } from "react"
+import { Provider } from "mobx-react"
+import DevTools from "mobx-react-devtools"
 
-// material ui
-
-import { Drawer, MenuItem, Subheader, Divider, ListItem, Avatar } from "material-ui"
+// material ui theme
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import getMuiTheme from "material-ui/styles/getMuiTheme"
-import VideoLibraryIcon from "material-ui/svg-icons/av/video-library"
-import ActionInfoIcon from "material-ui/svg-icons/action/info"
 import theme from "../theme"
 
 // http://stackoverflow.com/a/34015469/988941
@@ -18,36 +14,44 @@ injectTapEventPlugin()
 // other modules
 
 import Footer from "./Footer"
-import withMovies from "../withMovies"
+import AppDrawer from "./AppDrawer"
+import MovieStore from "../stores/MovieStore"
+import NavStore from "../stores/NavStore"
 
 import "../sass/main.sass"
 
-class App extends Component {
-  componentDidMount() {
-    this.props.movieStore.loadMore()
-  }
+function App({ children }) {
+  return <div id="app">
+    <AppDrawer />
+    {children}
+    <DevTools />
+    <Footer />
+  </div>
+}
 
-  render() {
-    const { movieStore } = this.props
+function provider(WrappedComponent) {
+  return class extends Component {
+    constructor(props) {
+      super(props)
 
-    return <MuiThemeProvider muiTheme={getMuiTheme(theme)}><div id="app">
-      <Drawer
-        docked={false}
-        open={this.props.isDrawerOpened}
-        onRequestChange={open => this.setState({ isDrawerOpened: open })}>
-        <Subheader>Database</Subheader>
-        <ListItem
-          leftAvatar={<Avatar icon={<VideoLibraryIcon />} />}
-          rightIcon={<ActionInfoIcon />}
-          primaryText={movieStore.name}
-        />
-        <Divider />
-        <MenuItem>Settings</MenuItem>
-      </Drawer>
-      {this.props.children}
-      <Footer />
-    </div></MuiThemeProvider>
+      this.movieStore = new MovieStore("G:\\Program Files\\WhiteBrowser\\db.wb", {
+        width: 200,
+        height: 150,
+        column: 3,
+        row: 1
+      })
+
+      this.navStore = new NavStore()
+    }
+
+    render() {
+      return <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+        <Provider movieStore={this.movieStore} navStore={this.navStore}>
+          <WrappedComponent {...this.props} />
+        </Provider>
+      </MuiThemeProvider>
+    }
   }
 }
 
-export default withMovies(App)
+export default provider(App)
