@@ -1,7 +1,7 @@
 const { remote } = window.require("electron")
 const fs = remote.require("fs")
 
-import { observable } from "mobx"
+import { observable, action } from "mobx"
 import _ from "lodash"
 import path from "path"
 import Database from "../models/Database"
@@ -120,7 +120,7 @@ export default class MovieStore {
       })
   }
 
-  select(movie) {
+  @action select(movie) {
     for (const m of this.movies) {
       m.isSelected = m.movie_id === movie.movie_id
     }

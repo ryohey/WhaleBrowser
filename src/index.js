@@ -11,7 +11,7 @@ render(
     <Route path="/" component={App}>
       <IndexRoute component={IndexPage} />
       <Route path="settings" component={SettingsPage} />
-      <Route path="db/:path/" component={DatabasePage} />
+      <Route path="db/:path" component={DatabasePage} />
     </Route>
   </Router>
 , document.getElementById("root"))

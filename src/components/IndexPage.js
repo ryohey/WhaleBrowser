@@ -6,7 +6,8 @@ import { observer, inject } from "mobx-react"
 
 import MovieList from "./MovieList"
 import PreviewComponent from "./Preview"
-import HeaderComponent from "./Header"
+import Header from "./Header"
+import MovieSearchBar from "./MovieSearchBar"
 
 @inject("movieStore", "navStore") @observer
 class IndexPage extends Component {
@@ -31,11 +32,14 @@ class IndexPage extends Component {
     }
 
     return <div className="IndexPage">
-      <HeaderComponent
-        onChangeSearchText={t => movieStore.setSearchText(t)}
-        onChangeSortColumn={c => movieStore.setSortColumn(c)}
-        onChangeSortOrder={d => movieStore.setSortDescend(d)}
-        onClickMenuButton={() => navStore.isDrawerOpened = true} />
+      <Header
+        onClickMenuButton={() => navStore.isDrawerOpened = true}>
+        <MovieSearchBar
+          onChangeSearchText={t => movieStore.setSearchText(t)}
+          onChangeSortColumn={c => movieStore.setSortColumn(c)}
+          onChangeSortOrder={d => movieStore.setSortDescend(d)}
+        />
+      </Header>
       <div className="flex">
         <MovieList
           movies={movies}
