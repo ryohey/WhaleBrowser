@@ -121,9 +121,10 @@ export default class MovieStore {
   }
 
   @action select(movie) {
-    for (const m of this.movies) {
+    this.setMovies(this.movies.map(m => {
       m.isSelected = m.movie_id === movie.movie_id
-    }
+      return m
+    }))
   }
 
   delete(movie) {
