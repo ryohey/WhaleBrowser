@@ -33,24 +33,38 @@ const keys = [
   "tag",
   "comment1",
   "comment2",
-  "comment3"
+  "comment3",
+  "random()"
 ]
 
-export default function MovieSearchBar(props) {
-  const onChangeSortOrder = (e) =>
-    props.onChangeSortOrder(e.target.checked)
+export default function MovieSearchBar({
+  searchText,
+  onChangeSearchText,
+  sortOrder,
+  onChangeSortOrder,
+  sortColumn,
+  onChangeSortColumn
+}) {
+  const changeSortOrder = (e, checked) => {
+    onChangeSortOrder(checked)
+  }
 
-  const onChangeSearchText = (e) =>
-    props.onChangeSearchText(e.target.value)
+  const changeSearchText = (e) => {
+    onChangeSearchText(e.target.value)
+  }
 
   return <div className="search-bar">
-    <TextField hintText="Search" onChange={onChangeSearchText} />
+    <TextField
+      hintText="Search"
+      value={searchText}
+      onChange={changeSearchText} />
     <Select
-      onChange={props.onChangeSortColumn}
+      value={sortColumn}
+      onChange={onChangeSortColumn}
       options={keys}
       label="Sort" />
     <div className="group">
-      <Checkbox onChange={onChangeSortOrder} label="降順" />
+      <Checkbox onCheck={changeSortOrder} label="降順" checked={sortOrder} />
     </div>
   </div>
 }

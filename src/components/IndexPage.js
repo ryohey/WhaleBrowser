@@ -35,9 +35,12 @@ class IndexPage extends Component {
       <Header
         onClickMenuButton={() => navStore.isDrawerOpened = true}>
         <MovieSearchBar
+          searchText={movieStore.searchText}
+          sortColumn={movieStore.sortColumn}
+          sortOrder={movieStore.sortOrder}
           onChangeSearchText={t => movieStore.setSearchText(t)}
           onChangeSortColumn={c => movieStore.setSortColumn(c)}
-          onChangeSortOrder={d => movieStore.setSortDescend(d)}
+          onChangeSortOrder={d => movieStore.setSortOrder(d)}
         />
       </Header>
       <div className="flex">

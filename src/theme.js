@@ -1,29 +1,27 @@
-import {
-  cyan700,
-  grey600,
-  pinkA100, pinkA200, pinkA400,
-  fullWhite,
-} from "material-ui/styles/colors"
-import { fade } from "material-ui/utils/colorManipulator"
+import { fade, darken , lighten} from "material-ui/utils/colorManipulator"
 import spacing from "material-ui/styles/spacing"
+
+const primaryColor = "#27ae60"
+const backgroundColor = "#273847"
+const textColor = "#ffffff"
 
 export default {
   spacing: spacing,
   fontFamily: "Roboto, sans-serif",
   palette: {
-    primary1Color: cyan700,
-    primary2Color: cyan700,
-    primary3Color: grey600,
-    accent1Color: pinkA200,
-    accent2Color: pinkA400,
-    accent3Color: pinkA100,
-    textColor: fullWhite,
-    secondaryTextColor: fade(fullWhite, 0.7),
-    alternateTextColor: "#303030",
-    canvasColor: "#303030",
-    borderColor: fade(fullWhite, 0.3),
-    disabledColor: fade(fullWhite, 0.3),
-    pickerHeaderColor: fade(fullWhite, 0.12),
-    clockCircleColor: fade(fullWhite, 0.12),
+    primary1Color: primaryColor,
+    primary2Color: darken(primaryColor, 0.1),
+    primary3Color: darken(primaryColor, 0.2),
+    accent1Color: lighten(primaryColor, 0.4),
+    accent2Color: lighten(primaryColor, 0.5),
+    accent3Color: lighten(primaryColor, 0.6),
+    textColor: textColor,
+    secondaryTextColor: fade(textColor, 0.7),
+    alternateTextColor: fade(textColor, 0.7),
+    canvasColor: backgroundColor,
+    borderColor: fade(textColor, 0.3),
+    disabledColor: fade(textColor, 0.3),
+    pickerHeaderColor: fade(textColor, 0.12),
+    clockCircleColor: fade(textColor, 0.12),
   },
 }

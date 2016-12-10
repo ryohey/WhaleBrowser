@@ -17,8 +17,7 @@ or
 options = ["hogefuga", "foobar" ...]
 */
 export default function Select(props) {
-  const onChange = (e) => {
-    const value = _.find(e.target.options, o => o.selected).value
+  const onChange = (e, index, value) => {
     props.onChange(value)
   }
 
@@ -32,5 +31,5 @@ export default function Select(props) {
     }
     return <MenuItem value={u.value} key={u.value} primaryText={u.label} />
   })
-  return <SelectField onChange={onChange}>{options}</SelectField>
+  return <SelectField onChange={onChange} value={props.value}>{options}</SelectField>
 }

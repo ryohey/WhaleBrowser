@@ -47,13 +47,11 @@ function createThumbnailIfNeeded(movie, callback) {
 export default class MovieStore {
   @observable movies = []
   @observable isLoading = false
+  @observable searchText = ""
+  @observable sortColumn = "movie_id"
+  @observable sortOrder = false
 
   constructor(dbFile, thumbnailSize) {
-    this.movies = []
-    this.searchText = ""
-    this.sortColumn = "movie_id"
-    this.sortDescend = false
-
     this.thumbnailSize = thumbnailSize
     this.setDatabasePath(dbFile)
   }
@@ -108,7 +106,7 @@ export default class MovieStore {
       this.searchText,
       this.sortColumn,
       this.movies.length,
-      this.sortDescend)
+      this.sortOrder)
       .then(rows => {
         const movies = createMovieEntities(rows, this.thumbnailDir)
         movies.forEach(m => createThumbnailIfNeeded(m, () => {
@@ -150,6 +148,6 @@ export default class MovieStore {
 
   setSearchText(t) { this.updateField("searchText", t) }
   setSortColumn(c) { this.updateField("sortColumn", c) }
-  setSortDescend(d) { this.updateField("sortDescend", d) }
+  setSortOrder(d) { this.updateField("sortOrder", d) }
   setThumbnailSize(s) { this.updateField("thumbnailSize", s) }
 }
