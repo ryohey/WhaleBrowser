@@ -17,6 +17,9 @@ import Footer from "./Footer"
 import AppDrawer from "./AppDrawer"
 import MovieStore from "../stores/MovieStore"
 import NavStore from "../stores/NavStore"
+import PreferenceStore from "../stores/PreferenceStore"
+import DatabaseStore from "../stores/DatabaseStore"
+import syncPrefs from "../helpers/syncPrefs"
 
 import "../sass/main.sass"
 
@@ -29,24 +32,54 @@ function App({ children }) {
   </div>
 }
 
+
 function provider(WrappedComponent) {
   return class extends Component {
     constructor(props) {
       super(props)
 
-      this.movieStore = new MovieStore("G:\\Program Files\\WhiteBrowser\\db.wb", {
-        width: 200,
-        height: 150,
-        column: 3,
-        row: 1
+      const prefStore = new PreferenceStore()
+      const databaseStore = new DatabaseStore()
+
+      this.state = {
+        movieStore: new MovieStore({
+          width: 200,
+          height: 150,
+          column: 3,
+          row: 1
+        }),
+        navStore: new NavStore(),
+        prefStore,
+        databaseStore
+      }
+
+      syncPrefs(this.state, () => {
+        this.openDatabase(databaseStore.currentDatabase)
       })
 
-      this.navStore = new NavStore()
+      this.openDatabase = this.openDatabase.bind(this)
+    }
+
+    openDatabase(file) {
+      const { movieStore, databaseStore } = this.state
+      movieStore.setDatabasePath(file)
+
+      if (!databaseStore.databases.includes(file)) {
+        databaseStore.databases = databaseStore.databases.concat([file])
+      }
+      databaseStore.currentDatabase = file
     }
 
     render() {
+      const { movieStore, navStore, prefStore, databaseStore } = this.state
+
       return <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-        <Provider movieStore={this.movieStore} navStore={this.navStore}>
+        <Provider
+          movieStore={movieStore}
+          navStore={navStore}
+          prefStore={prefStore}
+          databaseStore={databaseStore}
+          openDatabase={this.openDatabase}>
           <WrappedComponent {...this.props} />
         </Provider>
       </MuiThemeProvider>

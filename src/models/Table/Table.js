@@ -26,7 +26,7 @@ export default class Table {
   }
 
   all(where) {
-    const query = `select * from ${this.table}``${where ? ` where ${where}` : ""}`
+    const query = `select * from ${this.table} ${where ? ` where ${where}` : ""}`
     return this.select(query)
   }
 

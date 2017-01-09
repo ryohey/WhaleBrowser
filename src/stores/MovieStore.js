@@ -1,5 +1,5 @@
 const { remote } = window.require("electron")
-const fs = remote.require("fs")
+const fs = remote.require("mz/fs")
 
 import { observable, action } from "mobx"
 import _ from "lodash"
@@ -27,7 +27,7 @@ function createThumbnailDir(dbFile, { width, height, column, row }) {
 
 function createThumbnailIfNeeded(movie, callback) {
   const thumbnailPath = movie.getThumbnailPath()
-  fs.exists(thumbnailPath, (exists) => {
+  fs.exists(thumbnailPath).then(exists => {
     if (exists) return
     createThumbnail({
       input: movie.movie_path,
@@ -51,9 +51,8 @@ export default class MovieStore {
   @observable sortColumn = "movie_id"
   @observable sortOrder = false
 
-  constructor(dbFile, thumbnailSize) {
+  constructor(thumbnailSize) {
     this.thumbnailSize = thumbnailSize
-    this.setDatabasePath(dbFile)
   }
 
   get name() {
@@ -76,6 +75,7 @@ export default class MovieStore {
     }
     this.dbFile = file
     this.db = new Database(file)
+    this.update()
   }
 
   get thumbnailDir() {
@@ -126,16 +126,11 @@ export default class MovieStore {
   }
 
   delete(movie) {
-    this.setMovies(_.reject(this.movies, movie))
-    this.db.delete(movie.movie_id, error => {
-      if (error) { console.error(error) }
-    })
-    fs.unlink(movie.movie_path, error => {
-      if (error) { console.error(`failed to remove item: ${movie.movie_path}`) }
-    })
-    fs.unlink(movie.getThumbnailPath(), error => {
-      if (error) { console.error(`failed to remove thumbnail: ${movie.getThumbnailPath()}`) }
-    })
+    this.db.movie.delete(movie.movie_id)
+      .then(() => fs.unlink(movie.movie_path))
+      .then(() => fs.unlink(movie.getThumbnailPath()))
+      .then(() => this.setMovies(_.reject(this.movies, movie)))
+      .catch(error => console.error(error))
   }
 
   updateField(name, value) {

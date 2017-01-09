@@ -1,6 +1,5 @@
 import React from "react"
 import { SelectField, MenuItem } from "material-ui"
-import _ from "lodash"
 
 /**
 options =

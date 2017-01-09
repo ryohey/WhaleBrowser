@@ -1,6 +1,6 @@
 import React from "react"
-import { observer, inject } from "mobx-react"
 import { withRouter } from "react-router"
+import { observer, inject } from "mobx-react"
 
 import { Drawer, MenuItem, Subheader, Divider, ListItem, Avatar } from "material-ui"
 import VideoLibraryIcon from "material-ui/svg-icons/av/video-library"
@@ -8,11 +8,24 @@ import ActionInfoIcon from "material-ui/svg-icons/action/info"
 import HomeIcon from "material-ui/svg-icons/action/home"
 import SettingsIcon from "material-ui/svg-icons/action/settings"
 
-function AppDrawer({ movieStore, navStore, router }) {
+const { remote } = window.require("electron")
+const { dialog } = remote
+
+function AppDrawer({ databaseStore, navStore, router, openDatabase }) {
   function closeAndPush(path) {
     navStore.isDrawerOpened = false
     router.push(path)
   }
+
+  function onClickOpenDatabase() {
+    dialog.showOpenDialog({properties: ["openFile"]}, files => {
+      if (!files || files.length !== 1) {
+        return
+      }
+      openDatabase(files[0])
+    })
+  }
+
   return <Drawer
     className="AppDrawer"
     docked={false}
@@ -24,12 +37,17 @@ function AppDrawer({ movieStore, navStore, router }) {
       onTouchTap={() => closeAndPush("/")}
     />
     <Subheader>Database</Subheader>
-    <ListItem
-      leftAvatar={<Avatar icon={<VideoLibraryIcon />} />}
-      rightIcon={<ActionInfoIcon />}
-      primaryText={movieStore.name}
-      onTouchTap={() => closeAndPush(`/db/${movieStore.name}`)}
-    />
+    {databaseStore.databases.map(filePath =>
+      <ListItem
+        leftAvatar={<Avatar icon={<VideoLibraryIcon />} />}
+        rightIcon={<ActionInfoIcon onClick={() => closeAndPush(`/db/${filePath}`)} />}
+        primaryText={filePath}
+        onTouchTap={() => {
+          openDatabase(filePath)
+          closeAndPush("/")
+        }}
+      />)}
+    <ListItem primaryText="Open Database" onTouchTap={onClickOpenDatabase} />
     <Divider />
     <ListItem
       leftIcon={<SettingsIcon />}
@@ -39,4 +57,4 @@ function AppDrawer({ movieStore, navStore, router }) {
   </Drawer>
 }
 
-export default withRouter(inject("movieStore", "navStore")(observer(AppDrawer)))
+export default withRouter(inject("databaseStore", "navStore", "openDatabase")(observer(AppDrawer)))

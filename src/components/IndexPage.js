@@ -43,7 +43,7 @@ class IndexPage extends Component {
           onChangeSortOrder={d => movieStore.setSortOrder(d)}
         />
       </Header>
-      <div className="flex">
+      <div className="content">
         <MovieList
           movies={movies}
           onClickMovie={onClickMovie}
