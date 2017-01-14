@@ -6,3 +6,15 @@
   background: #000000;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
+
+.Footer p {
+  margin: 0;
+}
+
+.Footer .logs {
+    overflow-y: auto;
+    height: 100%;
+    font-size: 90%;
+    padding: 0.25em 1em;
+    box-sizing: border-box;
+}

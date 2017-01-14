@@ -3,6 +3,10 @@ import { observer, inject } from "mobx-react"
 import Header from "./Header"
 import path from "path"
 
+function checkMovieExists(movie, logger) {
+  logger(`checking ${movie.movie_path}`)
+}
+
 class DatabasePage extends Component {
   constructor(props) {
     super(props)
@@ -22,9 +26,15 @@ class DatabasePage extends Component {
   }
 
   render() {
-    const { navStore, movieStore, params } = this.props
+    const { navStore, movieStore, logStore, params } = this.props
     function toSwitch(v) {
       return v === 1 ? "有効" : "無効"
+    }
+    const onClickFileCheck = () => {
+      const logger = msg => logStore.add(msg)
+      movieStore.movies.forEach(m => {
+        setTimeout(() => checkMovieExists(m, logger))
+      })
     }
     return <div className="DatabasePage">
       <Header onClickMenuButton={() => navStore.isDrawerOpened = true}>
@@ -48,9 +58,10 @@ class DatabasePage extends Component {
           </tr>
         )}
         </table>
+        <button onClick={onClickFileCheck}>ファイルチェックを開始</button>
       </div>
     </div>
   }
 }
 
-export default inject("navStore", "movieStore")(observer(DatabasePage))
+export default inject("navStore", "movieStore", "logStore")(observer(DatabasePage))

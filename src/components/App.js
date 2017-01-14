@@ -19,6 +19,7 @@ import MovieStore from "../stores/MovieStore"
 import NavStore from "../stores/NavStore"
 import PreferenceStore from "../stores/PreferenceStore"
 import DatabaseStore from "../stores/DatabaseStore"
+import LogStore from "../stores/LogStore"
 import syncPrefs from "../helpers/syncPrefs"
 
 import "../sass/main.sass"
@@ -49,6 +50,7 @@ function provider(WrappedComponent) {
           row: 1
         }),
         navStore: new NavStore(),
+        logStore: new LogStore(),
         prefStore,
         databaseStore
       }
@@ -71,7 +73,7 @@ function provider(WrappedComponent) {
     }
 
     render() {
-      const { movieStore, navStore, prefStore, databaseStore } = this.state
+      const { movieStore, navStore, prefStore, databaseStore, logStore } = this.state
 
       return <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
         <Provider
@@ -79,6 +81,7 @@ function provider(WrappedComponent) {
           navStore={navStore}
           prefStore={prefStore}
           databaseStore={databaseStore}
+          logStore={logStore}
           openDatabase={this.openDatabase}>
           <WrappedComponent {...this.props} />
         </Provider>
