@@ -22,7 +22,7 @@ import DatabaseStore from "../stores/DatabaseStore"
 import LogStore from "../stores/LogStore"
 import syncPrefs from "../helpers/syncPrefs"
 
-import "../sass/main.sass"
+import "../styles/main.styl"
 
 function App({ children }) {
   return <div id="app">
