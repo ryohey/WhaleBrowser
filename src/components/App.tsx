@@ -13,7 +13,7 @@ import Footer from "./Footer"
 
 import { ThemeProvider } from "@mui/material"
 import { StoreContext } from "../hooks/useStores"
-import "../styles/main.styl"
+import "../styles/main.css"
 import AppDrawer from "./AppDrawer"
 
 export function App({ children }: any) {
