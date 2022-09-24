@@ -15,7 +15,8 @@ app.on("ready", function () {
     width: 800,
     height: 600,
   })
-  mainWindow.loadURL("file://" + __dirname + "/../index.html")
+  // TODO: load the production static html
+  mainWindow.loadURL("http://localhost:8080/index.html")
   mainWindow.webContents.openDevTools()
   mainWindow.on("closed", function () {
     mainWindow = null

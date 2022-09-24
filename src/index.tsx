@@ -1,4 +1,4 @@
-import { render } from "react-dom"
+import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import DatabasePage from "./components/DatabasePage"
 import IndexPage from "./components/IndexPage"
@@ -19,4 +19,5 @@ const router = createBrowserRouter([
   },
 ])
 
-render(<RouterProvider router={router} />, document.getElementById("root"))
+const root = createRoot(document.getElementById("root")!)
+root.render(<RouterProvider router={router} />)

@@ -1,5 +1,5 @@
 {
-  "name": "WhaleBrowser",
+  "name": "whale-browser",
   "version": "1.0.0",
   "description": "White whale",
   "main": "js/main.js",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/react-dom": "^18.0.6",
+    "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.7.1",
     "style-loader": "^3.3.1",
     "stylus-loader": "^7.0.0",

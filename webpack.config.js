@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+
 module.exports = {
   mode: "development",
   devtool: "inline-cheap-module-source-map",
@@ -33,4 +35,12 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
+  devServer: {
+    port: 8080,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+    }),
+  ],
 }
