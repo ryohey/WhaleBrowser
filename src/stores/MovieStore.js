@@ -10,10 +10,10 @@ import createMovie from "../createMovie"
 import createThumbnail from "../stm"
 
 function createMovieEntities(rows, thumbnailDir) {
-  return rows.map(r =>
+  return rows.map((r) =>
     _.create(MovieEntity.prototype, {
       thumbnailDir: thumbnailDir,
-      ...r
+      ...r,
     })
   )
 }
@@ -27,20 +27,26 @@ function createThumbnailDir(dbFile, { width, height, column, row }) {
 
 function createThumbnailIfNeeded(movie, callback) {
   const thumbnailPath = movie.getThumbnailPath()
-  fs.exists(thumbnailPath).then(exists => {
+  fs.exists(thumbnailPath).then((exists) => {
     if (exists) return
-    createThumbnail({
-      input: movie.movie_path,
-      output: `${movie.thumbnailDir}*.jpg`,
-      addHash: true
-    }, error => {
-      if (error) {
-        console.error(`failed to create the thumbnail for ${movie.movie_name}`, error)
-        return
+    createThumbnail(
+      {
+        input: movie.movie_path,
+        output: `${movie.thumbnailDir}*.jpg`,
+        addHash: true,
+      },
+      (error) => {
+        if (error) {
+          console.error(
+            `failed to create the thumbnail for ${movie.movie_name}`,
+            error
+          )
+          return
+        }
+        console.log(`created the thumbnail for ${movie.movie_name}`)
+        callback()
       }
-      console.log(`created the thumbnail for ${movie.movie_name}`)
-      callback()
-    })
+    )
   })
 }
 
@@ -60,8 +66,7 @@ export default class MovieStore {
   }
 
   add(filePath) {
-    createMovie(filePath)
-      .then(movie => this.db.movie.insert(movie))
+    createMovie(filePath).then((movie) => this.db.movie.insert(movie))
   }
 
   setDatabasePath(file) {
@@ -69,8 +74,10 @@ export default class MovieStore {
       return
     }
     if (this.db) {
-      this.db.close(error => {
-        if (error) { console.error(error) }
+      this.db.close((error) => {
+        if (error) {
+          console.error(error)
+        }
       })
     }
     this.dbFile = file
@@ -102,35 +109,42 @@ export default class MovieStore {
 
     this.isLoading = true
 
-    this.db.movie.getNext(
-      this.searchText,
-      this.sortColumn,
-      this.movies.length,
-      this.sortOrder)
-      .then(rows => {
+    this.db.movie
+      .getNext(
+        this.searchText,
+        this.sortColumn,
+        this.movies.length,
+        this.sortOrder
+      )
+      .then((rows) => {
         const movies = createMovieEntities(rows, this.thumbnailDir)
-        movies.forEach(m => createThumbnailIfNeeded(m, () => {
-          m.isThumbnailCreated = true
-          this.setMovies(this.movies)
-        }))
+        movies.forEach((m) =>
+          createThumbnailIfNeeded(m, () => {
+            m.isThumbnailCreated = true
+            this.setMovies(this.movies)
+          })
+        )
         this.setMovies(this.movies.concat(movies))
         this.isLoading = false
       })
   }
 
   @action select(movie) {
-    this.setMovies(this.movies.map(m => {
-      m.isSelected = m.movie_id === movie.movie_id
-      return m
-    }))
+    this.setMovies(
+      this.movies.map((m) => {
+        m.isSelected = m.movie_id === movie.movie_id
+        return m
+      })
+    )
   }
 
   delete(movie) {
-    this.db.movie.delete(movie.movie_id)
+    this.db.movie
+      .delete(movie.movie_id)
       .then(() => fs.unlink(movie.movie_path))
       .then(() => fs.unlink(movie.getThumbnailPath()))
       .then(() => this.setMovies(_.reject(this.movies, movie)))
-      .catch(error => console.error(error))
+      .catch((error) => console.error(error))
   }
 
   updateField(name, value) {
@@ -141,8 +155,16 @@ export default class MovieStore {
     this.update()
   }
 
-  setSearchText(t) { this.updateField("searchText", t) }
-  setSortColumn(c) { this.updateField("sortColumn", c) }
-  setSortOrder(d) { this.updateField("sortOrder", d) }
-  setThumbnailSize(s) { this.updateField("thumbnailSize", s) }
+  setSearchText(t) {
+    this.updateField("searchText", t)
+  }
+  setSortColumn(c) {
+    this.updateField("sortColumn", c)
+  }
+  setSortOrder(d) {
+    this.updateField("sortOrder", d)
+  }
+  setThumbnailSize(s) {
+    this.updateField("thumbnailSize", s)
+  }
 }

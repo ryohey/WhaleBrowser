@@ -16,22 +16,25 @@ function timeString(seconds) {
 }
 
 export default function Movie(props) {
-  const onContextMenu = e => {
+  const onContextMenu = (e) => {
     e.preventDefault()
     showMovieContextMenu(props.movie, props)
   }
 
   const className = props.movie.isSelected ? "selected" : ""
 
-  return <div
-    className={`movie ${className}`}
-    onClick={props.onClick}
-    onDoubleClick={props.onDoubleClick}
-    onContextMenu={onContextMenu}>
-    <div className="image">
-      <img src={props.movie.getThumbnailURL()} />
+  return (
+    <div
+      className={`movie ${className}`}
+      onClick={props.onClick}
+      onDoubleClick={props.onDoubleClick}
+      onContextMenu={onContextMenu}
+    >
+      <div className="image">
+        <img src={props.movie.getThumbnailURL()} />
+      </div>
+      <p className="name">{props.movie.movie_name}</p>
+      <p className="time">{timeString(props.movie.movie_length)}</p>
     </div>
-    <p className="name">{props.movie.movie_name}</p>
-    <p className="time">{timeString(props.movie.movie_length)}</p>
-  </div>
+  )
 }

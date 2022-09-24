@@ -18,7 +18,7 @@ const IndexPage = () => {
     movieStore.loadMore()
   }, [])
 
-  const onClickMovie = movie => {
+  const onClickMovie = (movie) => {
     movieStore.select(movie)
   }
 
@@ -30,28 +30,30 @@ const IndexPage = () => {
     movieStore.delete(movie)
   }
 
-  return <div className="IndexPage">
-    <Header
-      onClickMenuButton={() => navStore.isDrawerOpened = true}>
-      <MovieSearchBar
-        searchText={movieStore.searchText}
-        sortColumn={movieStore.sortColumn}
-        sortOrder={movieStore.sortOrder}
-        onChangeSearchText={t => movieStore.setSearchText(t)}
-        onChangeSortColumn={c => movieStore.setSortColumn(c)}
-        onChangeSortOrder={d => movieStore.setSortOrder(d)}
-      />
-    </Header>
-    <div className="content">
-      <MovieList
-        movies={movies}
-        onClickMovie={onClickMovie}
-        onDoubleClickMovie={onDoubleClickMovie}
-        onClickMenuDelete={onClickMenuDelete}
-        loadMore={() => movieStore.loadMore()} />
-      <PreviewComponent movies={movies} />
+  return (
+    <div className="IndexPage">
+      <Header onClickMenuButton={() => (navStore.isDrawerOpened = true)}>
+        <MovieSearchBar
+          searchText={movieStore.searchText}
+          sortColumn={movieStore.sortColumn}
+          sortOrder={movieStore.sortOrder}
+          onChangeSearchText={(t) => movieStore.setSearchText(t)}
+          onChangeSortColumn={(c) => movieStore.setSortColumn(c)}
+          onChangeSortOrder={(d) => movieStore.setSortOrder(d)}
+        />
+      </Header>
+      <div className="content">
+        <MovieList
+          movies={movies}
+          onClickMovie={onClickMovie}
+          onDoubleClickMovie={onDoubleClickMovie}
+          onClickMenuDelete={onClickMenuDelete}
+          loadMore={() => movieStore.loadMore()}
+        />
+        <PreviewComponent movies={movies} />
+      </div>
     </div>
-  </div>
+  )
 }
 
 export default IndexPage

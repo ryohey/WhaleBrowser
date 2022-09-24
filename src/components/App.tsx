@@ -18,52 +18,56 @@ import "../styles/main.styl"
 import { StoreContext } from "../hooks/useStores"
 
 function App({ children }) {
-  return <div id="app">
-    <AppDrawer />
-    {children}
-    <DevTools />
-    <Footer />
-  </div>
+  return (
+    <div id="app">
+      <AppDrawer />
+      {children}
+      <DevTools />
+      <Footer />
+    </div>
+  )
 }
 
 const Provider = () => {
-      const databaseStore = new DatabaseStore()
-      const movieStore= new MovieStore({
-        width: 200,
-        height: 150,
-        column: 3,
-        row: 1
-      })
+  const databaseStore = new DatabaseStore()
+  const movieStore = new MovieStore({
+    width: 200,
+    height: 150,
+    column: 3,
+    row: 1,
+  })
 
-      function openDatabase(file) {
-        movieStore.setDatabasePath(file)
-  
-        if (!databaseStore.databases.includes(file)) {
-          databaseStore.databases = databaseStore.databases.concat([file])
-        }
-        databaseStore.currentDatabase = file
-      }
+  function openDatabase(file) {
+    movieStore.setDatabasePath(file)
 
-      syncPrefs({ databaseStore }, () => {
-        openDatabase(databaseStore.currentDatabase)
-      })
+    if (!databaseStore.databases.includes(file)) {
+      databaseStore.databases = databaseStore.databases.concat([file])
+    }
+    databaseStore.currentDatabase = file
+  }
 
-      return (
-        <StyledEngineProvider injectFirst>
-          <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-            <StoreContext.Provider value={
-              {databaseStore: databaseStore,
-              logStore: new LogStore(),
+  syncPrefs({ databaseStore }, () => {
+    openDatabase(databaseStore.currentDatabase)
+  })
+
+  return (
+    <StyledEngineProvider injectFirst>
+      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+        <StoreContext.Provider
+          value={{
+            databaseStore: databaseStore,
+            logStore: new LogStore(),
             movieStore,
-          navStore: new NavStore(),
-          preferenceStore: new PreferenceStore(),
-          openDatabase:openDatabase}
-            }>
-              <App />
-            </StoreContext.Provider>
-          </MuiThemeProvider>
-        </StyledEngineProvider>
-      );
+            navStore: new NavStore(),
+            preferenceStore: new PreferenceStore(),
+            openDatabase: openDatabase,
+          }}
+        >
+          <App />
+        </StoreContext.Provider>
+      </MuiThemeProvider>
+    </StyledEngineProvider>
+  )
 }
 
 export default Provider

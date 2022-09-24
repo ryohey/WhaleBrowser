@@ -12,9 +12,9 @@
 }
 
 .Footer .logs {
-    overflow-y: auto;
-    height: 100%;
-    font-size: 90%;
-    padding: 0.25em 1em;
-    box-sizing: border-box;
+  overflow-y: auto;
+  height: 100%;
+  font-size: 90%;
+  padding: 0.25em 1em;
+  box-sizing: border-box;
 }

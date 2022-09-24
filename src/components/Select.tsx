@@ -1,5 +1,5 @@
 import React from "react"
-import { SelectField, MenuItem } from "material-ui"
+import { SelectField, MenuItem } from "@mui/material"
 
 /**
 options =
@@ -20,7 +20,7 @@ export default function Select(props) {
     props.onChange(value)
   }
 
-  const options = props.options.map(o => {
+  const options = props.options.map((o) => {
     let u: any = {}
     if (o instanceof Object) {
       u = o
@@ -30,5 +30,9 @@ export default function Select(props) {
     }
     return <MenuItem value={u.value} key={u.value} primaryText={u.label} />
   })
-  return <SelectField onChange={onChange} value={props.value}>{options}</SelectField>
+  return (
+    <SelectField onChange={onChange} value={props.value}>
+      {options}
+    </SelectField>
+  )
 }

@@ -41,7 +41,7 @@ requiredOptions =
 callback = (error, stdout, stderr) ->
 
 */
-export default function(options, callback) {
+export default function (options, callback) {
   const defaults = {
     width: 100,
     height: 100,
@@ -51,7 +51,7 @@ export default function(options, callback) {
     randomFrame: false,
     horizontalNum: 1,
     verticalNum: 1,
-    frame: null
+    frame: null,
   }
 
   const o = _.extend(defaults, options)
@@ -67,15 +67,19 @@ export default function(options, callback) {
     o.randomFrame ? "-d" : "",
     o.frame ? `-f ${o.frame}` : "",
     `-o ${o.output}`,
-    `${o.input}`
+    `${o.input}`,
   ]
 
   console.log(`${processPath} ${args.join(" ")}`)
 
   const commandOptions = {
     encoding: "sjis",
-    timeout: 20000
+    timeout: 20000,
   }
 
-  child_process.exec(`${processPath} ${args.join(" ")}`, commandOptions, callback)
+  child_process.exec(
+    `${processPath} ${args.join(" ")}`,
+    commandOptions,
+    callback
+  )
 }

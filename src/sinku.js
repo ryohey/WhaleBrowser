@@ -16,7 +16,6 @@
   時間、サイズ以外の出力はsinku.dll(format.ini)の仕様に従います。
 */
 
-
 const { remote } = window.require("electron")
 const child_process = remote.require("child_process")
 import { parseString } from "xml2js"
@@ -24,19 +23,23 @@ import path from "path"
 
 const processPath = ".\\bin\\sinku.exe"
 
-export default function(file, callback) {
+export default function (file, callback) {
   const commandOptions = {
     cwd: path.dirname(processPath),
     encoding: "sjis",
-    timeout: 20000
+    timeout: 20000,
   }
 
-  child_process.exec(`${path.basename(processPath)} "${file}"`, commandOptions, (error, stdout) => {
-    if (error) {
-      return callback(error)
+  child_process.exec(
+    `${path.basename(processPath)} "${file}"`,
+    commandOptions,
+    (error, stdout) => {
+      if (error) {
+        return callback(error)
+      }
+      parseString(stdout.toString(), (error, result) => {
+        callback(error, result.fields)
+      })
     }
-    parseString(stdout.toString(), (error, result) => {
-      callback(error, result.fields)
-    })
-  })
+  )
 }

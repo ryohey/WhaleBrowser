@@ -1,9 +1,10 @@
 import { AppBar, IconButton, Toolbar } from "@mui/material"
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu"
 import React from "react"
 
 export default function Header({ onClickMenuButton, children }) {
-  return <AppBar position="static">
+  return (
+    <AppBar position="static">
       <Toolbar>
         <IconButton
           size="large"
@@ -18,4 +19,5 @@ export default function Header({ onClickMenuButton, children }) {
         {children}
       </Toolbar>
     </AppBar>
+  )
 }

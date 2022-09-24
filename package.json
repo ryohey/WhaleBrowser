@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/react-dom": "^18.0.6",
+    "prettier": "^2.7.1",
     "style-loader": "^3.3.1",
     "stylus-loader": "^7.0.0",
     "ts-loader": "^9.4.1",

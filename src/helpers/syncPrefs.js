@@ -21,12 +21,14 @@ function sync(store, key, onRestore) {
 export default function syncPrefs({ databaseStore }, complete) {
   const items = [
     [databaseStore, "databases"],
-    [databaseStore, "currentDatabase"]
+    [databaseStore, "currentDatabase"],
   ]
   let count = items.length
-  items.forEach(e => sync(e[0], e[1], () => {
-    if (count === 0) {
-      complete()
-    }
-  }))
+  items.forEach((e) =>
+    sync(e[0], e[1], () => {
+      if (count === 0) {
+        complete()
+      }
+    })
+  )
 }

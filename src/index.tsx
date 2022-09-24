@@ -3,10 +3,7 @@ import { render } from "react-dom"
 import IndexPage from "./components/IndexPage"
 import SettingsPage from "./components/SettingsPage"
 import DatabasePage from "./components/DatabasePage"
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { StoreContext } from "./hooks/useStores"
 import DatabaseStore from "./stores/DatabaseStore"
 import LogStore from "./stores/LogStore"
@@ -21,14 +18,12 @@ const router = createBrowserRouter([
   },
   {
     path: "settings",
-    element: SettingsPage
+    element: SettingsPage,
   },
-  { 
+  {
     path: "db/:path",
-    element: DatabasePage
-  }
+    element: DatabasePage,
+  },
 ])
 
-render(
-  <RouterProvider router={router} />
-, document.getElementById("root"))
+render(<RouterProvider router={router} />, document.getElementById("root"))

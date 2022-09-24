@@ -1,2 +1,1 @@
-export default class PreferenceStore {
-}
+export default class PreferenceStore {}

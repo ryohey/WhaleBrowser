@@ -4,12 +4,14 @@ import Header from "./Header"
 import { useStores } from "../hooks/useStores"
 
 function SettingsPage() {
-  const {navStore} = useStores()
-  return <div className="SettingsPage">
-    <Header onClickMenuButton={() => navStore.isDrawerOpened = true}>
-      Settings
-    </Header>
-  </div>
+  const { navStore } = useStores()
+  return (
+    <div className="SettingsPage">
+      <Header onClickMenuButton={() => (navStore.isDrawerOpened = true)}>
+        Settings
+      </Header>
+    </div>
+  )
 }
 
-export default (observer(SettingsPage))
+export default observer(SettingsPage)

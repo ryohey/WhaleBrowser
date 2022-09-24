@@ -6,12 +6,12 @@ import NavStore from "../stores/NavStore"
 import PreferenceStore from "../stores/PreferenceStore"
 
 export interface Stores {
-    databaseStore: DatabaseStore,
-    logStore: LogStore,
-    movieStore: MovieStore,
-    navStore: NavStore,
-    preferenceStore: PreferenceStore,
-    openDatabase: (path: string) => void
+  databaseStore: DatabaseStore
+  logStore: LogStore
+  movieStore: MovieStore
+  navStore: NavStore
+  preferenceStore: PreferenceStore
+  openDatabase: (path: string) => void
 }
 
 export const StoreContext = createContext<Stores>(

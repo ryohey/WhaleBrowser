@@ -1,8 +1,10 @@
 import _ from "lodash"
 
 function buildInsertValueQuery(obj) {
-  const quote = (v) => _.isString(v) ? `"${v}"` : `${v}`
-  return `(${Object.keys(obj).join(", ")}) values (${Object.values(obj).map(quote).join(", ")})`
+  const quote = (v) => (_.isString(v) ? `"${v}"` : `${v}`)
+  return `(${Object.keys(obj).join(", ")}) values (${Object.values(obj)
+    .map(quote)
+    .join(", ")})`
 }
 
 export default class Table {
@@ -17,7 +19,7 @@ export default class Table {
     return new Promise((resolve) => {
       const stmt = this.sqlite.prepare(query)
       const rows = []
-      while(stmt.step()) {
+      while (stmt.step()) {
         const row = stmt.getAsObject()
         rows.push(row)
       }
@@ -26,7 +28,9 @@ export default class Table {
   }
 
   all(where) {
-    const query = `select * from ${this.table} ${where ? ` where ${where}` : ""}`
+    const query = `select * from ${this.table} ${
+      where ? ` where ${where}` : ""
+    }`
     return this.select(query)
   }
 

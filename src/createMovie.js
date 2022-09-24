@@ -3,7 +3,9 @@ import fs from "fs"
 import sinku from "./sinku"
 
 function formatDate(n) {
-  return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()} ${n.getHours()}:${n.getMinutes()}:${n.getSeconds()}`
+  return `${n.getFullYear()}-${
+    n.getMonth() + 1
+  }-${n.getDate()} ${n.getHours()}:${n.getMinutes()}:${n.getSeconds()}`
 }
 
 export default function createMovie(filePath) {
@@ -27,7 +29,7 @@ export default function createMovie(filePath) {
         container: o.container.toString(),
         extra: o.extra.toString(),
         audio: o.audio.toString(),
-        video: o.video.toString()
+        video: o.video.toString(),
       })
     })
   })

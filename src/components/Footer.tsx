@@ -6,11 +6,15 @@ import { observer } from "mobx-react"
 
 function Footer() {
   const { logStore } = useStores()
-  return <div className="Footer">
-    <div className="logs">
-      {logStore.logs.map(log => <p>{log}</p>)}
+  return (
+    <div className="Footer">
+      <div className="logs">
+        {logStore.logs.map((log) => (
+          <p>{log}</p>
+        ))}
+      </div>
     </div>
-  </div>
+  )
 }
 
 export default observer(Footer)

@@ -1,4 +1,4 @@
-import { fade, darken , lighten} from "material-ui/utils/colorManipulator"
+import { fade, darken, lighten } from "material-ui/utils/colorManipulator"
 import spacing from "material-ui/styles/spacing"
 
 const primaryColor = "#27ae60"

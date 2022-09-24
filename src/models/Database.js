@@ -11,7 +11,7 @@ import WatchTable from "./Table/WatchTable"
 export default class Database {
   constructor(file) {
     console.log(`open ${file} ...`)
-    const filebuffer  = fs.readFileSync(file)
+    const filebuffer = fs.readFileSync(file)
     this.sqlite = new sql.Database(filebuffer)
     this.movie = new MovieTable(this.sqlite)
     this.watch = new WatchTable(this.sqlite)
