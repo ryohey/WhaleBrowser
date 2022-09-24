@@ -1,11 +1,10 @@
 import React from "react"
-import _ from "lodash"
-import { observer, inject } from "mobx-react"
 
 import "./Footer.css"
 import { useStores } from "../hooks/useStores"
+import { observer } from "mobx-react"
 
-function Footer({ logStore }) {
+function Footer() {
   const { logStore } = useStores()
   return <div className="Footer">
     <div className="logs">

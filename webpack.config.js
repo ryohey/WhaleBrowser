@@ -29,5 +29,10 @@ module.exports = {
         loader: "json"
       }
     ]
-  }
+  },
+  resolve: {
+    extensions: [
+      ".tsx", '.ts', ".jsx", '.js',
+    ],
+  },
 }

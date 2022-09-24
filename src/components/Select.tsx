@@ -21,7 +21,7 @@ export default function Select(props) {
   }
 
   const options = props.options.map(o => {
-    let u = {}
+    let u: any = {}
     if (o instanceof Object) {
       u = o
     } else {

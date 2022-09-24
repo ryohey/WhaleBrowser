@@ -10,6 +10,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.6",
     "@types/react-router-dom": "^5.3.3",
     "electron": "^20.2.0",
     "electron-json-storage": "^4.5.0",
