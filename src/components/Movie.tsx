@@ -1,4 +1,3 @@
-import React from "react"
 import showMovieContextMenu from "../showMovieContextMenu"
 
 function timeString(seconds) {

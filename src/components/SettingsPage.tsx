@@ -1,7 +1,6 @@
-import React from "react"
-import { observer, inject } from "mobx-react"
-import Header from "./Header"
+import { observer } from "mobx-react"
 import { useStores } from "../hooks/useStores"
+import Header from "./Header"
 
 function SettingsPage() {
   const { navStore } = useStores()

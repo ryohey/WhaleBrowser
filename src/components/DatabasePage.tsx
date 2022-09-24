@@ -1,17 +1,19 @@
-import React, { Component, useEffect, useState } from "react"
-import { observer, inject } from "mobx-react"
-import Header from "./Header"
+import { observer } from "mobx-react"
 import path from "path"
+import { useEffect, useState } from "react"
+import { useStores } from "../hooks/useStores"
+import Header from "./Header"
 
 function checkMovieExists(movie, logger) {
   logger(`checking ${movie.movie_path}`)
 }
 
-const DatabasePage = () => {
+const DatabasePage = ({ params }) => {
+  const { navStore, movieStore, logStore } = useStores()
   const [rows, setRows] = useState([])
 
   useEffect(() => {
-    const db = this.props.movieStore.db
+    const db = movieStore.db
     if (db) {
       db.watch.all().then((rows) => {
         setRows(rows)
@@ -19,7 +21,6 @@ const DatabasePage = () => {
     }
   }, [])
 
-  const { navStore, movieStore, logStore, params } = this.props
   function toSwitch(v) {
     return v === 1 ? "有効" : "無効"
   }

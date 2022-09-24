@@ -1,6 +1,5 @@
-import { AppBar, IconButton, Toolbar } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import React from "react"
+import { AppBar, IconButton, Toolbar } from "@mui/material"
 
 export default function Header({ onClickMenuButton, children }) {
   return (

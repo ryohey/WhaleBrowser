@@ -1,8 +1,6 @@
-import React from "react"
-
-import "./Footer.css"
-import { useStores } from "../hooks/useStores"
 import { observer } from "mobx-react"
+import { useStores } from "../hooks/useStores"
+import "./Footer.css"
 
 function Footer() {
   const { logStore } = useStores()

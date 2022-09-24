@@ -1,5 +1,4 @@
-import React from "react"
-import Waypoint from "react-waypoint"
+import { InView } from "react-intersection-observer"
 import MovieComponent from "./Movie"
 
 export default function MovieList(props) {
@@ -28,7 +27,7 @@ export default function MovieList(props) {
   return (
     <div className="MovieList">
       {renderMovies()}
-      <Waypoint onEnter={loadMore} onLeave={() => {}} threshold={0.2} />
+      <InView onChange={loadMore} threshold={0.2} />
     </div>
   )
 }

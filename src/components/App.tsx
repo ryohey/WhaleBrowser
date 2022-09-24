@@ -1,28 +1,27 @@
-import React, { Component } from "react"
-
 // material ui theme
 import theme from "../theme"
 
 // other modules
 
-import Footer from "./Footer"
-import "./AppDrawer.css"
+import syncPrefs from "../helpers/syncPrefs"
+import DatabaseStore from "../stores/DatabaseStore"
+import LogStore from "../stores/LogStore"
 import MovieStore from "../stores/MovieStore"
 import NavStore from "../stores/NavStore"
 import PreferenceStore from "../stores/PreferenceStore"
-import DatabaseStore from "../stores/DatabaseStore"
-import LogStore from "../stores/LogStore"
-import syncPrefs from "../helpers/syncPrefs"
+import "./AppDrawer.css"
+import Footer from "./Footer"
 
-import "../styles/main.styl"
+import { ThemeProvider } from "@mui/material"
 import { StoreContext } from "../hooks/useStores"
+import "../styles/main.styl"
+import AppDrawer from "./AppDrawer"
 
-function App({ children }) {
+function App({ children }: any) {
   return (
     <div id="app">
       <AppDrawer />
       {children}
-      <DevTools />
       <Footer />
     </div>
   )
@@ -51,22 +50,20 @@ const Provider = () => {
   })
 
   return (
-    <StyledEngineProvider injectFirst>
-      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-        <StoreContext.Provider
-          value={{
-            databaseStore: databaseStore,
-            logStore: new LogStore(),
-            movieStore,
-            navStore: new NavStore(),
-            preferenceStore: new PreferenceStore(),
-            openDatabase: openDatabase,
-          }}
-        >
-          <App />
-        </StoreContext.Provider>
-      </MuiThemeProvider>
-    </StyledEngineProvider>
+    <ThemeProvider theme={theme}>
+      <StoreContext.Provider
+        value={{
+          databaseStore: databaseStore,
+          logStore: new LogStore(),
+          movieStore,
+          navStore: new NavStore(),
+          preferenceStore: new PreferenceStore(),
+          openDatabase: openDatabase,
+        }}
+      >
+        <App />
+      </StoreContext.Provider>
+    </ThemeProvider>
   )
 }
 

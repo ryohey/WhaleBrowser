@@ -1,6 +1,4 @@
-import React from "react"
-
-import { TextField, Checkbox } from "material-ui"
+import { Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material"
 import Select from "./Select"
 
 const keys = [
@@ -45,8 +43,8 @@ export default function MovieSearchBar({
   sortColumn,
   onChangeSortColumn,
 }) {
-  const changeSortOrder = (e, checked) => {
-    onChangeSortOrder(checked)
+  const changeSortOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChangeSortOrder(e.target.checked)
   }
 
   const changeSearchText = (e) => {
@@ -56,7 +54,7 @@ export default function MovieSearchBar({
   return (
     <div className="search-bar">
       <TextField
-        hintText="Search"
+        placeholder="Search"
         value={searchText}
         onChange={changeSearchText}
       />
@@ -67,7 +65,14 @@ export default function MovieSearchBar({
         label="Sort"
       />
       <div className="group">
-        <Checkbox onCheck={changeSortOrder} label="降順" checked={sortOrder} />
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox onChange={changeSortOrder} checked={sortOrder} />
+            }
+            label="降順"
+          />
+        </FormGroup>
       </div>
     </div>
   )

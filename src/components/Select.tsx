@@ -1,5 +1,8 @@
-import React from "react"
-import { SelectField, MenuItem } from "@mui/material"
+import {
+  MenuItem,
+  Select as SelectMenu,
+  SelectChangeEvent,
+} from "@mui/material"
 
 /**
 options =
@@ -16,8 +19,8 @@ or
 options = ["hogefuga", "foobar" ...]
 */
 export default function Select(props) {
-  const onChange = (e, index, value) => {
-    props.onChange(value)
+  const onChange = (e: SelectChangeEvent) => {
+    props.onChange(e.target.value)
   }
 
   const options = props.options.map((o) => {
@@ -28,11 +31,15 @@ export default function Select(props) {
       u.value = o
       u.label = o
     }
-    return <MenuItem value={u.value} key={u.value} primaryText={u.label} />
+    return (
+      <MenuItem value={u.value} key={u.value}>
+        {u.label}
+      </MenuItem>
+    )
   })
   return (
-    <SelectField onChange={onChange} value={props.value}>
+    <SelectMenu onChange={onChange} value={props.value}>
       {options}
-    </SelectField>
+    </SelectMenu>
   )
 }

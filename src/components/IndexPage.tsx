@@ -1,14 +1,13 @@
 const { remote } = window.require("electron")
 const child_process = remote.require("child_process")
 
-import React, { Component, useEffect } from "react"
-import { observer, inject } from "mobx-react"
+import { useEffect } from "react"
 
-import MovieList from "./MovieList"
-import PreviewComponent from "./Preview"
-import Header from "./Header"
-import MovieSearchBar from "./MovieSearchBar"
 import { useStores } from "../hooks/useStores"
+import Header from "./Header"
+import MovieList from "./MovieList"
+import MovieSearchBar from "./MovieSearchBar"
+import PreviewComponent from "./Preview"
 
 const IndexPage = () => {
   const { movieStore, navStore } = useStores()

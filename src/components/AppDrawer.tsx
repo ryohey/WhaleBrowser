@@ -1,27 +1,34 @@
-import React from "react"
-import { withRouter } from "react-router"
-import { observer, inject } from "mobx-react"
+import { observer } from "mobx-react"
 
+import HomeIcon from "@mui/icons-material/Home"
+import ActionInfoIcon from "@mui/icons-material/Info"
+import SettingsIcon from "@mui/icons-material/Settings"
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary"
 import {
-  Drawer,
-  MenuItem,
-  Subheader,
-  Divider,
-  ListItem,
   Avatar,
-} from "material-ui"
-import VideoLibraryIcon from "material-ui/svg-icons/av/video-library"
-import ActionInfoIcon from "material-ui/svg-icons/action/info"
-import HomeIcon from "material-ui/svg-icons/action/home"
-import SettingsIcon from "material-ui/svg-icons/action/settings"
+  Divider,
+  Drawer,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { useStores } from "../hooks/useStores"
 
 const { remote } = window.require("electron")
 const { dialog } = remote
 
-function AppDrawer({ databaseStore, navStore, router, openDatabase }) {
+function AppDrawer() {
+  const { databaseStore, navStore, openDatabase } = useStores()
+  const navigate = useNavigate()
+
   function closeAndPush(path) {
     navStore.isDrawerOpened = false
-    router.push(path)
+    navigate(path)
   }
 
   function onClickOpenDatabase() {
@@ -36,41 +43,55 @@ function AppDrawer({ databaseStore, navStore, router, openDatabase }) {
   return (
     <Drawer
       className="AppDrawer"
-      docked={false}
       open={navStore.isDrawerOpened}
-      onRequestChange={(open) => (navStore.isDrawerOpened = open)}
+      onClose={() => (navStore.isDrawerOpened = false)}
     >
-      <ListItem
-        leftIcon={<HomeIcon />}
-        primaryText="Home"
-        onTouchTap={() => closeAndPush("/")}
-      />
-      <Subheader>Database</Subheader>
-      {false &&
-        databaseStore.databases.map((filePath) => (
-          <ListItem
-            leftAvatar={<Avatar icon={<VideoLibraryIcon />} />}
-            rightIcon={
-              <ActionInfoIcon onClick={() => closeAndPush(`/db/${filePath}`)} />
-            }
-            primaryText={filePath}
-            onTouchTap={() => {
-              openDatabase(filePath)
-              closeAndPush("/")
-            }}
-          />
-        ))}
-      <ListItem primaryText="Open Database" onTouchTap={onClickOpenDatabase} />
+      <ListItem onClick={() => closeAndPush("/")}>
+        <ListItemButton>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItemButton>
+      </ListItem>
+      <ListSubheader>Database</ListSubheader>
+      {databaseStore.databases.map((filePath) => (
+        <ListItem
+          onClick={() => {
+            openDatabase(filePath)
+            closeAndPush("/")
+          }}
+          secondaryAction={
+            <IconButton
+              edge="end"
+              onClick={() => closeAndPush(`/db/${filePath}`)}
+            >
+              <ActionInfoIcon />
+            </IconButton>
+          }
+        >
+          <ListItemAvatar>
+            <Avatar>
+              <VideoLibraryIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={filePath} />
+        </ListItem>
+      ))}
+      <ListItem onClick={onClickOpenDatabase}>
+        <ListItemText primary="Open Database" />
+      </ListItem>
       <Divider />
-      <ListItem
-        leftIcon={<SettingsIcon />}
-        primaryText="Settings"
-        onTouchTap={() => closeAndPush("/settings")}
-      />
+      <ListItem onClick={() => closeAndPush("/settings")}>
+        <ListItemAvatar>
+          <Avatar>
+            <SettingsIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary="Settings" />
+      </ListItem>
     </Drawer>
   )
 }
 
-export default withRouter(
-  inject("databaseStore", "navStore", "openDatabase")(observer(AppDrawer))
-)
+export default observer(AppDrawer)
