@@ -1,38 +1,28 @@
-const path = require("path")
-
 module.exports = {
-  context: path.join(__dirname, "src"),
-  devtool: "cheap-module-inline-source-map",
-  target: "electron",
+  mode: "development",
+  devtool: "inline-cheap-module-source-map",
+  target: "electron-renderer",
   entry: {
-    javascript: './index.js'
+    main: './src/index.tsx'
   },
   output: {
     filename: "bundle.js"
   },
   module: {
-    preLoaders: [
+    rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: "eslint-loader"
-      }
-    ],
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: 'ts-loader',
       },
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: "style-loader!css-loader"
+        loader: "css-loader"
       },
       {
         test: /\.styl$/,
-        exclude: /node_modules/,
-        loaders: ["style", "css", "stylus"]
+        loader: "stylus-loader",
       },
       {
         test: /\.json$/,

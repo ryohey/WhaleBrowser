@@ -33,61 +33,40 @@ function App({ children }) {
   </div>
 }
 
-
-function provider(WrappedComponent) {
-  return class extends Component {
-    constructor(props) {
-      super(props)
-
-      const prefStore = new PreferenceStore()
+const Provider = () => {
       const databaseStore = new DatabaseStore()
-
-      this.state = {
-        movieStore: new MovieStore({
-          width: 200,
-          height: 150,
-          column: 3,
-          row: 1
-        }),
-        navStore: new NavStore(),
-        logStore: new LogStore(),
-        prefStore,
-        databaseStore
-      }
-
-      syncPrefs(this.state, () => {
-        this.openDatabase(databaseStore.currentDatabase)
+      const movieStore= new MovieStore({
+        width: 200,
+        height: 150,
+        column: 3,
+        row: 1
       })
 
-      this.openDatabase = this.openDatabase.bind(this)
-    }
-
-    openDatabase(file) {
-      const { movieStore, databaseStore } = this.state
-      movieStore.setDatabasePath(file)
-
-      if (!databaseStore.databases.includes(file)) {
-        databaseStore.databases = databaseStore.databases.concat([file])
+      function openDatabase(file) {
+        movieStore.setDatabasePath(file)
+  
+        if (!databaseStore.databases.includes(file)) {
+          databaseStore.databases = databaseStore.databases.concat([file])
+        }
+        databaseStore.currentDatabase = file
       }
-      databaseStore.currentDatabase = file
-    }
 
-    render() {
-      const { movieStore, navStore, prefStore, databaseStore, logStore } = this.state
+      syncPrefs({ databaseStore }, () => {
+        openDatabase(databaseStore.currentDatabase)
+      })
 
       return <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-        <Provider
-          movieStore={movieStore}
-          navStore={navStore}
-          prefStore={prefStore}
-          databaseStore={databaseStore}
-          logStore={logStore}
-          openDatabase={this.openDatabase}>
-          <WrappedComponent {...this.props} />
-        </Provider>
+        <StoreContext.Provider value={
+          {databaseStore: databaseStore,
+          logStore: new LogStore(),
+        movieStore,
+      navStore: new NavStore(),
+      preferenceStore: new PreferenceStore(),
+      openDatabase:this.openDatabase}
+        }>
+          <App />
+        </StoreContext.Provider>
       </MuiThemeProvider>
-    }
-  }
 }
 
-export default provider(App)
+export default Provider

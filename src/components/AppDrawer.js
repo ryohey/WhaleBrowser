@@ -37,7 +37,7 @@ function AppDrawer({ databaseStore, navStore, router, openDatabase }) {
       onTouchTap={() => closeAndPush("/")}
     />
     <Subheader>Database</Subheader>
-    {databaseStore.databases.map(filePath =>
+    {false && databaseStore.databases.map(filePath =>
       <ListItem
         leftAvatar={<Avatar icon={<VideoLibraryIcon />} />}
         rightIcon={<ActionInfoIcon onClick={() => closeAndPush(`/db/${filePath}`)} />}
