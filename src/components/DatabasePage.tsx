@@ -1,6 +1,7 @@
 import { observer } from "mobx-react"
 import path from "path"
 import { useEffect, useState } from "react"
+import { useParams } from "react-router"
 import { useStores } from "../hooks/useStores"
 import Header from "./Header"
 
@@ -8,7 +9,8 @@ function checkMovieExists(movie, logger) {
   logger(`checking ${movie.movie_path}`)
 }
 
-const DatabasePage = ({ params }) => {
+const DatabasePage = () => {
+  const params = useParams()
   const { navStore, movieStore, logStore } = useStores()
   const [rows, setRows] = useState([])
 
