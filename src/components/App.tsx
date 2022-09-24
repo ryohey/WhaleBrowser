@@ -1,5 +1,5 @@
 // material ui theme
-import theme from "../theme"
+import { theme } from "../theme"
 
 // other modules
 
@@ -9,7 +9,6 @@ import LogStore from "../stores/LogStore"
 import MovieStore from "../stores/MovieStore"
 import NavStore from "../stores/NavStore"
 import PreferenceStore from "../stores/PreferenceStore"
-import "./AppDrawer.css"
 import Footer from "./Footer"
 
 import { ThemeProvider } from "@mui/material"
@@ -17,7 +16,7 @@ import { StoreContext } from "../hooks/useStores"
 import "../styles/main.styl"
 import AppDrawer from "./AppDrawer"
 
-function App({ children }: any) {
+export function App({ children }: any) {
   return (
     <div id="app">
       <AppDrawer />
@@ -27,7 +26,7 @@ function App({ children }: any) {
   )
 }
 
-const Provider = () => {
+export const Provider = ({ children }: any) => {
   const databaseStore = new DatabaseStore()
   const movieStore = new MovieStore({
     width: 200,
@@ -61,10 +60,8 @@ const Provider = () => {
           openDatabase: openDatabase,
         }}
       >
-        <App />
+        {children}
       </StoreContext.Provider>
     </ThemeProvider>
   )
 }
-
-export default Provider

@@ -1,12 +1,12 @@
 const { remote } = window.require("electron")
 const fs = remote.require("mz/fs")
 
-import { observable, action } from "mobx"
 import _ from "lodash"
+import { action, observable } from "mobx"
 import path from "path"
+import createMovie from "../createMovie"
 import Database from "../models/Database"
 import MovieEntity from "../MovieEntity"
-import createMovie from "../createMovie"
 import createThumbnail from "../stm"
 
 function createMovieEntities(rows, thumbnailDir) {
@@ -56,6 +56,9 @@ export default class MovieStore {
   @observable searchText = ""
   @observable sortColumn = "movie_id"
   @observable sortOrder = false
+  thumbnailSize
+  dbFile
+  db
 
   constructor(thumbnailSize) {
     this.thumbnailSize = thumbnailSize
