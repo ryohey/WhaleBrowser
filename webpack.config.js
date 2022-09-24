@@ -3,22 +3,22 @@ module.exports = {
   devtool: "inline-cheap-module-source-map",
   target: "electron-renderer",
   entry: {
-    main: './src/index.tsx'
+    main: "./src/index.tsx",
   },
   output: {
-    filename: "bundle.js"
+    filename: "bundle.js",
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'ts-loader',
+        loader: "ts-loader",
       },
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: "css-loader"
+        loader: "css-loader",
       },
       {
         test: /\.styl$/,
@@ -26,13 +26,11 @@ module.exports = {
       },
       {
         test: /\.json$/,
-        loader: "json"
-      }
-    ]
+        loader: "json",
+      },
+    ],
   },
   resolve: {
-    extensions: [
-      ".tsx", '.ts', ".jsx", '.js',
-    ],
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
 }
