@@ -1,5 +1,5 @@
-import { autorunAsync, toJS } from "mobx"
 import storage from "electron-json-storage"
+import { autorun, toJS } from "mobx"
 
 function sync(store, key, onRestore) {
   const generatedKey = `${store.constructor.name}.${key}`
@@ -10,11 +10,14 @@ function sync(store, key, onRestore) {
     onRestore(error)
 
     // start sync
-    autorunAsync(() => {
-      const value = toJS(store[key])
-      storage.set(generatedKey, value)
-      console.log(`saved ${generatedKey} to ${value}`)
-    }, 300)
+    autorun(
+      () => {
+        const value = toJS(store[key])
+        storage.set(generatedKey, value)
+        console.log(`saved ${generatedKey} to ${value}`)
+      },
+      { delay: 300 }
+    )
   })
 }
 

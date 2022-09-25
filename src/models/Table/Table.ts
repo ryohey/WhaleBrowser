@@ -8,12 +8,12 @@ function buildInsertValueQuery(obj) {
 }
 
 export default class Table {
-  constructor(sqlite, table, schema, uniqueKey) {
-    this.sqlite = sqlite
-    this.table = table
-    this.schema = schema
-    this.uniqueKey = uniqueKey
-  }
+  constructor(
+    readonly sqlite,
+    readonly table,
+    readonly schema,
+    readonly uniqueKey
+  ) {}
 
   select(query) {
     return new Promise((resolve) => {
