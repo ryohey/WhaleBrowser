@@ -5,6 +5,7 @@
   "scripts": {
     "start": "electron ./src/main/main.js",
     "watch": "webpack serve --hot --progress",
+    "backend:watch": "nodemon --watch \"src/backend/**\" --ext \"ts\" --ignore \"src/backend/**/*.test.ts\" --exec \"ts-node src/backend/index.ts\"",
     "rebuild": "electron-rebuild -w sqlite3 -p"
   },
   "license": "MIT",
@@ -17,6 +18,7 @@
     "electron": "^20.2.0",
     "electron-json-storage": "^4.5.0",
     "electron-rebuild": "^3.2.9",
+    "express": "^4.18.1",
     "lodash": "^4.17.21",
     "mobx": "^6.6.2",
     "mobx-persist-store": "^1.1.2",
@@ -36,9 +38,12 @@
     "@types/react-dom": "^18.0.6",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
