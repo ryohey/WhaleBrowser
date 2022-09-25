@@ -1,3 +1,4 @@
+/*
 const setDatabasePath = (file: string) => {
   if (file === this.dbFile) {
     return
@@ -95,3 +96,4 @@ const thumbnailDir = () => {
 const getName = () => {
   return path.basename(this.dbFile)
 }
+*/

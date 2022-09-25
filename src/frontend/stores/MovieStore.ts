@@ -19,6 +19,7 @@ export default class MovieStore {
       searchText: observable,
       sortColumn: observable,
       sortOrder: observable,
+      select: action,
     })
   }
 
@@ -58,7 +59,7 @@ export default class MovieStore {
     // this.isLoading = false
   }
 
-  @action select(movie) {
+  select(movie) {
     this.setMovies(
       this.movies.map((m) => {
         m.isSelected = m.movie_id === movie.movie_id
