@@ -16,28 +16,25 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material"
-import { useNavigate } from "react-router-dom"
 import { useStores } from "../hooks/useStores"
-
-const { remote } = window.require("electron")
-const { dialog } = remote
 
 function AppDrawer() {
   const { databaseStore, navStore, openDatabase } = useStores()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   function closeAndPush(path) {
     navStore.isDrawerOpened = false
-    navigate(path)
+    // navigate(path)
   }
 
   function onClickOpenDatabase() {
-    dialog.showOpenDialog({ properties: ["openFile"] }, (files) => {
-      if (!files || files.length !== 1) {
-        return
-      }
-      openDatabase(files[0])
-    })
+    // TODO: Move to main process
+    // dialog.showOpenDialog({ properties: ["openFile"] }, (files) => {
+    //   if (!files || files.length !== 1) {
+    //     return
+    //   }
+    //   openDatabase(files[0])
+    // })
   }
 
   return (

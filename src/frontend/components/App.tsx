@@ -3,7 +3,6 @@ import { theme } from "../theme"
 
 // other modules
 
-import syncPrefs from "../helpers/syncPrefs"
 import DatabaseStore from "../stores/DatabaseStore"
 import LogStore from "../stores/LogStore"
 import MovieStore from "../stores/MovieStore"
@@ -43,10 +42,6 @@ export const Provider = ({ children }: any) => {
     }
     databaseStore.currentDatabase = file
   }
-
-  syncPrefs({ databaseStore }, () => {
-    openDatabase(databaseStore.currentDatabase)
-  })
 
   return (
     <ThemeProvider theme={theme}>

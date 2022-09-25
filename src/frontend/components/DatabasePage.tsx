@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
-import path from "path"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { basename } from "../helpers/basename"
 import { useStores } from "../hooks/useStores"
 import Header from "./Header"
 
@@ -35,7 +35,7 @@ const DatabasePage = () => {
   return (
     <div className="DatabasePage">
       <Header onClickMenuButton={() => (navStore.isDrawerOpened = true)}>
-        {path.basename(params.path)}
+        {basename(params.path)}
       </Header>
       <div className="content">
         <h2>監視フォルダ</h2>

@@ -1,11 +1,26 @@
-import { observable, computed } from "mobx"
 import _ from "lodash"
+import { computed, makeObservable, observable } from "mobx"
+import { makePersistable } from "mobx-persist-store"
 
 export default class DatabaseStore {
-  @observable databases = []
-  @observable _currentDatabase
+  databases = []
+  _currentDatabase = null
 
-  @computed get currentDatabase() {
+  constructor() {
+    makeObservable(this, {
+      databases: observable,
+      _currentDatabase: observable,
+      currentDatabase: computed,
+    })
+
+    makePersistable(this, {
+      name: "DatabaseStore",
+      properties: ["databases", "_currentDatabase"],
+      storage: window.localStorage,
+    })
+  }
+
+  get currentDatabase() {
     return this._currentDatabase || _.first(this.databases)
   }
 

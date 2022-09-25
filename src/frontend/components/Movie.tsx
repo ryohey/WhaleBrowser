@@ -1,5 +1,3 @@
-import showMovieContextMenu from "../showMovieContextMenu"
-
 function timeString(seconds) {
   if (seconds < 0) return ""
   const hou = Math.floor(seconds / 60 / 60)
@@ -17,7 +15,8 @@ function timeString(seconds) {
 export default function Movie(props) {
   const onContextMenu = (e) => {
     e.preventDefault()
-    showMovieContextMenu(props.movie, props)
+    // TODO: Fix
+    // showMovieContextMenu(props.movie, props)
   }
 
   const className = props.movie.isSelected ? "selected" : ""

@@ -1,6 +1,3 @@
-const { remote } = window.require("electron")
-const child_process = remote.require("child_process")
-
 import { useEffect } from "react"
 
 import { useStores } from "../hooks/useStores"
@@ -22,7 +19,8 @@ const IndexPage = () => {
   }
 
   const onDoubleClickMovie = (movie) => {
-    child_process.exec(`explorer ${movie.movie_path}`)
+    // TODO: Move to main process
+    // child_process.exec(`explorer ${movie.movie_path}`)
   }
 
   const onClickMenuDelete = (movie) => {

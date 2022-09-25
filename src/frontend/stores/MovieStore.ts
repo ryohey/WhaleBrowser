@@ -1,6 +1,3 @@
-const { remote } = window.require("electron")
-const fs = remote.require("mz/fs")
-
 import { action, observable } from "mobx"
 
 export default class MovieStore {
