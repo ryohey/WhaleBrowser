@@ -1,8 +1,13 @@
-import { observable, computed } from "mobx"
-import _ from "lodash"
+import { makeObservable, observable } from "mobx"
 
 export default class LogStore {
-  @observable logs = []
+  logs = []
+
+  constructor() {
+    makeObservable(this, {
+      logs: observable,
+    })
+  }
 
   add(log) {
     this.logs.push(log)

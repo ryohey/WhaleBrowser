@@ -18,7 +18,7 @@ import {
 } from "@mui/material"
 import { useStores } from "../hooks/useStores"
 
-function AppDrawer() {
+const AppDrawer = () => {
   const { databaseStore, navStore, openDatabase } = useStores()
   // const navigate = useNavigate()
 

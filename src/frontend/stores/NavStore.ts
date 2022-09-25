@@ -1,5 +1,11 @@
-import { observable } from "mobx"
+import { makeObservable, observable } from "mobx"
 
 export default class NavStore {
-  @observable isDrawerOpened = false
+  isDrawerOpened = false
+
+  constructor() {
+    makeObservable(this, {
+      isDrawerOpened: observable,
+    })
+  }
 }

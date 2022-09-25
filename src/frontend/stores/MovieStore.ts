@@ -1,17 +1,25 @@
-import { action, observable } from "mobx"
+import { action, makeObservable, observable } from "mobx"
 
 export default class MovieStore {
-  @observable movies = []
-  @observable isLoading = false
-  @observable searchText = ""
-  @observable sortColumn = "movie_id"
-  @observable sortOrder = false
+  movies = []
+  isLoading = false
+  searchText = ""
+  sortColumn = "movie_id"
+  sortOrder = false
   thumbnailSize
   dbFile
   db
 
   constructor(thumbnailSize) {
     this.thumbnailSize = thumbnailSize
+
+    makeObservable(this, {
+      movies: observable,
+      isLoading: observable,
+      searchText: observable,
+      sortColumn: observable,
+      sortOrder: observable,
+    })
   }
 
   add(filePath) {
