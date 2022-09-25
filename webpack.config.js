@@ -2,8 +2,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
   mode: "development",
-  devtool: "inline-cheap-module-source-map",
-  target: "electron-renderer",
+  devtool: "inline-source-map",
+  target: "web",
   entry: {
     main: "./src/index.tsx",
   },
@@ -36,6 +36,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
   devServer: {
+    compress: true,
     port: 8080,
   },
   plugins: [
