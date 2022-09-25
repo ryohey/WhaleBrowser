@@ -5,7 +5,7 @@ module.exports = {
   devtool: "inline-source-map",
   target: "web",
   entry: {
-    main: "./src/index.tsx",
+    main: "./src/frontend/index.tsx",
   },
   output: {
     filename: "bundle.js",

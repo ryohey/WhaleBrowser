@@ -2,9 +2,8 @@
   "name": "whale-browser",
   "version": "1.0.0",
   "description": "White whale",
-  "main": "js/main.js",
   "scripts": {
-    "start": "electron ./src/main.js",
+    "start": "electron ./src/main/main.js",
     "watch": "webpack serve --hot --progress",
     "rebuild": "electron-rebuild -w sqlite3 -p"
   },
