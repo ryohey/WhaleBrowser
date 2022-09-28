@@ -18,28 +18,24 @@
 
 const { remote } = window.require("electron")
 const child_process = remote.require("child_process")
-import { parseString } from "xml2js"
 import path from "path"
+import { promisify } from "util"
+import { parseString } from "xml2js"
 
 const processPath = ".\\bin\\sinku.exe"
 
-export default function (file, callback) {
+export default async function (file: string) {
   const commandOptions = {
     cwd: path.dirname(processPath),
     encoding: "sjis",
     timeout: 20000,
   }
 
-  child_process.exec(
+  const stdout = await promisify(child_process.exec)(
     `${path.basename(processPath)} "${file}"`,
-    commandOptions,
-    (error, stdout) => {
-      if (error) {
-        return callback(error)
-      }
-      parseString(stdout.toString(), (error, result) => {
-        callback(error, result.fields)
-      })
-    }
+    commandOptions
   )
+
+  const result: any = await promisify(parseString)(stdout.toString())
+  return result.fields
 }

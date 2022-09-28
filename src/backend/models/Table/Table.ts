@@ -15,6 +15,11 @@ export default class Table {
     readonly uniqueKey
   ) {}
 
+  get(id) {
+    const query = `select * from ${this.table} where ${this.uniqueKey} = ${id}`
+    return this.select(query)
+  }
+
   select(query) {
     return new Promise((resolve) => {
       const stmt = this.sqlite.prepare(query)

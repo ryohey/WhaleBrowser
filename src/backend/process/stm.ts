@@ -26,9 +26,9 @@
   例：stm.exe -w 200 -h 150 -c 240 -f 15 -o "C:\out" C:\in.avi
 */
 
-const { remote } = window.require("electron")
-const child_process = remote.require("child_process")
+import child_process from "child_process"
 import _ from "lodash"
+import { promisify } from "util"
 
 const processPath = ".\\bin\\stm.exe"
 
@@ -41,7 +41,7 @@ requiredOptions =
 callback = (error, stdout, stderr) ->
 
 */
-export default function (options, callback) {
+export async function createThumbnail(options) {
   const defaults = {
     width: 100,
     height: 100,
@@ -77,9 +77,8 @@ export default function (options, callback) {
     timeout: 20000,
   }
 
-  child_process.exec(
+  await promisify(child_process.exec)(
     `${processPath} ${args.join(" ")}`,
-    commandOptions,
-    callback
+    commandOptions
   )
 }
