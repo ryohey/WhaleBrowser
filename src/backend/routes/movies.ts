@@ -31,9 +31,9 @@ router.get("/", async (req, res) => {
     searchText = "",
     sortColumn = "create_time",
     offset = 0,
-    descend = false,
     limit = 50,
   } = req.query as any
+  const descend = req.query.descend === "true"
   console.log(searchText, sortColumn, offset, descend, limit)
   const rows = await db.movie.getNext(
     searchText,
