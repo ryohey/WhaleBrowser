@@ -53,7 +53,14 @@ export default class MovieStore {
     }
 
     this.isLoading = true
-    const res = await fetch(`${baseURL}/movies/`)
+    const params = new URLSearchParams({
+      offset: this.movies.length.toString(),
+      searchText: this.searchText,
+      sortColumn: this.sortColumn,
+      descend: this.sortOrder.toString(),
+      limit: (50).toString(),
+    })
+    const res = await fetch(`${baseURL}/movies/?${params.toString()}`)
     const movies = await res.json()
     this.setMovies(this.movies.concat(movies))
     this.isLoading = false

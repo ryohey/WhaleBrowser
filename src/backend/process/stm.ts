@@ -70,8 +70,6 @@ export async function createThumbnail(options) {
     `"${o.input}"`,
   ]
 
-  console.log(`${processPath} ${args.join(" ")}`)
-
   const commandOptions = {
     encoding: "sjis",
     timeout: 20000,
