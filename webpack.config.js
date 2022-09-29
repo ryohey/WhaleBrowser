@@ -20,11 +20,7 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: "css-loader",
-      },
-      {
-        test: /\.styl$/,
-        loader: "stylus-loader",
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.json$/,
