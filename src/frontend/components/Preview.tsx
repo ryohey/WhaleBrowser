@@ -29,7 +29,7 @@ export default function Preview(props) {
   } else {
     return (
       <div id="preview">
-        <img src={movie.getThumbnailURL()} />
+        <img src={movie.thumbnail} />
         <p className="name">{movie.movie_name}</p>
         {json2html(movie)}
       </div>

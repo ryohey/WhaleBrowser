@@ -29,7 +29,7 @@ export default function Movie(props) {
       onContextMenu={onContextMenu}
     >
       <div className="image">
-        <img src={props.movie.getThumbnailURL()} />
+        <img src={props.movie.thumbnail} />
       </div>
       <p className="name">{props.movie.movie_name}</p>
       <p className="time">{timeString(props.movie.movie_length)}</p>

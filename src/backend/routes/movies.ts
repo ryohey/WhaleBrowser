@@ -1,4 +1,4 @@
-import express from "express"
+import express, { Request } from "express"
 import { existsSync } from "fs"
 import fs from "fs/promises"
 import mkdirp from "mkdirp"
@@ -17,7 +17,16 @@ interface ThumbnailSize {
   row: number
 }
 
+const withThumbnail = (baseURL: string) => (movie) => ({
+  ...movie,
+  thumbnail: getThumbnailURL(baseURL)(movie.movie_id),
+})
+
+const getBaseURL = (req: Request): string =>
+  req.protocol + "://" + req.get("host")
+
 router.get("/", async (req, res) => {
+  console.log(getBaseURL(req))
   const {
     searchText = "",
     sortColumn = "create_time",
@@ -33,7 +42,7 @@ router.get("/", async (req, res) => {
     descend,
     limit
   )
-  res.send(rows)
+  res.send(rows.map(withThumbnail(getBaseURL(req))))
 })
 
 router.get("/:id", async (req, res, next) => {
@@ -44,7 +53,7 @@ router.get("/:id", async (req, res, next) => {
       res.status(404).send("404 Not Found")
       return
     }
-    res.send(movie)
+    res.send(withThumbnail(getBaseURL(req))(movie))
   } catch (e) {
     next(e)
   }
@@ -112,3 +121,6 @@ async function createThumbnailIfNeeded(
 function getThumbnailFilename(movie) {
   return `${movie.hash}.jpg`
 }
+
+const getThumbnailURL = (baseURL: string) => (movieID: number) =>
+  [baseURL, "movies", movieID.toString(), "thumbnail"].join("/")

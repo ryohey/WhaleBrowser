@@ -1,5 +1,7 @@
 import { action, makeObservable, observable } from "mobx"
 
+const baseURL = "http://localhost:3000"
+
 export default class MovieStore {
   movies = []
   isLoading = false
@@ -46,17 +48,15 @@ export default class MovieStore {
   }
 
   async loadMore() {
-    if (!this.db || this.isLoading) {
+    if (this.isLoading) {
       return
     }
 
     this.isLoading = true
-
-    // TODO
-    // const res = await fetch(`/movies/`)
-    // const movies = await res.json()
-    // this.setMovies(this.movies.concat(movies))
-    // this.isLoading = false
+    const res = await fetch(`${baseURL}/movies/`)
+    const movies = await res.json()
+    this.setMovies(this.movies.concat(movies))
+    this.isLoading = false
   }
 
   select(movie) {

@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
     "@types/react-router-dom": "^5.3.3",
+    "cors": "^2.8.5",
     "electron": "^20.2.0",
     "electron-json-storage": "^4.5.0",
     "electron-rebuild": "^3.2.9",
@@ -36,6 +37,7 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/lodash": "^4.14.185",
     "@types/mkdirp": "^1.0.2",
     "@types/react-dom": "^18.0.6",

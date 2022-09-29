@@ -1,3 +1,4 @@
+import cors from "cors"
 import express from "express"
 import { router as moviesRouter } from "./routes/movies"
 const app = express()
@@ -7,6 +8,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!")
 })
 
+app.use(cors())
 app.use("/movies", moviesRouter)
 
 app.listen(port, () => {
