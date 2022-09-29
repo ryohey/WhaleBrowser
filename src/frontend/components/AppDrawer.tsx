@@ -16,15 +16,16 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material"
+import { useNavigate } from "react-router-dom"
 import { useStores } from "../hooks/useStores"
 
 const AppDrawer = () => {
   const { databaseStore, navStore, openDatabase } = useStores()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   function closeAndPush(path) {
     navStore.isDrawerOpened = false
-    // navigate(path)
+    navigate(path)
   }
 
   function onClickOpenDatabase() {
