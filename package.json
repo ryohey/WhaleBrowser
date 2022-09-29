@@ -4,7 +4,7 @@
   "description": "White whale",
   "scripts": {
     "start": "electron ./src/main/main.js",
-    "watch": "webpack serve --hot --progress",
+    "watch": "webpack serve --hot --progress --open",
     "backend:watch": "nodemon --watch \"src/backend/**\" --ext \"ts\" --ignore \"src/backend/**/*.test.ts\" --exec \"ts-node src/backend/index.ts\"",
     "rebuild": "electron-rebuild -w sqlite3 -p"
   },
