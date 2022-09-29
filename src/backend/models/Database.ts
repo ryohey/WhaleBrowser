@@ -1,5 +1,5 @@
 import fs from "fs"
-import initSqlJs from "sql.js"
+import initSqlJs, { Database as SQLDatabase } from "sql.js"
 
 import MovieTable from "./Table/MovieTable"
 import WatchTable from "./Table/WatchTable"
@@ -9,9 +9,9 @@ import WatchTable from "./Table/WatchTable"
   file: "hogefuga"
 */
 export default class Database {
-  sqlite
-  movie
-  watch
+  sqlite: SQLDatabase
+  movie: MovieTable
+  watch: WatchTable
 
   constructor(file) {
     console.log(`open ${file} ...`)

@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { Database } from "sql.js"
 
 function buildInsertValueQuery(obj) {
   const quote = (v) => (_.isString(v) ? `"${v}"` : `${v}`)
@@ -9,18 +10,19 @@ function buildInsertValueQuery(obj) {
 
 export default class Table {
   constructor(
-    readonly sqlite,
-    readonly table,
-    readonly schema,
-    readonly uniqueKey
+    readonly sqlite: Database,
+    readonly table: string,
+    readonly schema: any,
+    readonly uniqueKey: string
   ) {}
 
-  get(id) {
+  async get(id: string) {
     const query = `select * from ${this.table} where ${this.uniqueKey} = ${id}`
-    return this.select(query)
+    const res = await this.select(query)
+    return _.first(res)
   }
 
-  select(query) {
+  select(query: string): Promise<any[]> {
     return new Promise((resolve) => {
       const stmt = this.sqlite.prepare(query)
       const rows = []
@@ -32,14 +34,14 @@ export default class Table {
     })
   }
 
-  all(where) {
+  all(where: string) {
     const query = `select * from ${this.table} ${
       where ? ` where ${where}` : ""
     }`
     return this.select(query)
   }
 
-  insert(obj) {
+  insert(obj: any) {
     return new Promise((resolve) => {
       const pickedObj = _.pick(obj, Object.keys(this.schema))
       const values = buildInsertValueQuery(pickedObj)
@@ -49,7 +51,7 @@ export default class Table {
     })
   }
 
-  delete(id) {
+  delete(id: string) {
     return new Promise((resolve) => {
       const query = `delete from ${this.table} where ${this.uniqueKey} = ${id}`
       const result = this.sqlite.run(query)

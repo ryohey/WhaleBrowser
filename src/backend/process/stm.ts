@@ -27,8 +27,8 @@
 */
 
 import child_process from "child_process"
+import iconv from "iconv-lite"
 import _ from "lodash"
-import { promisify } from "util"
 
 const processPath = ".\\bin\\stm.exe"
 
@@ -66,8 +66,8 @@ export async function createThumbnail(options) {
     o.addHash ? "-k" : "",
     o.randomFrame ? "-d" : "",
     o.frame ? `-f ${o.frame}` : "",
-    `-o ${o.output}`,
-    `${o.input}`,
+    `-o "${o.output}"`,
+    `"${o.input}"`,
   ]
 
   console.log(`${processPath} ${args.join(" ")}`)
@@ -75,10 +75,21 @@ export async function createThumbnail(options) {
   const commandOptions = {
     encoding: "sjis",
     timeout: 20000,
+    cwd: process.cwd(),
   }
 
-  await promisify(child_process.exec)(
-    `${processPath} ${args.join(" ")}`,
-    commandOptions
-  )
+  return new Promise((resolve, reject) => {
+    child_process.exec(
+      `${processPath} ${args.join(" ")}`,
+      commandOptions,
+      (e, stdout, stderr) => {
+        if (e) {
+          const message = iconv.decode(stdout as unknown as Buffer, "sjis")
+          reject(new Error(message))
+        } else {
+          resolve(stdout)
+        }
+      }
+    )
+  })
 }
